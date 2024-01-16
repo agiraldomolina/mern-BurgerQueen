@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
 import bcryptjs from 'bcryptjs';
-import { Timestamp } from "mongodb";
+import validator from 'validator';
 
 const userSchema = new mongoose.Schema({
     role: {
       type: String,
       enum: ['admin', 'waiter','chef'],
       default: 'waiter',
-      lowerCase: true,
-      trim: true,
     },
     email: {
       type: String,
@@ -16,8 +14,6 @@ const userSchema = new mongoose.Schema({
       unique: true,
       lowerCase: true,
       trim: true,
-      maxLength: [40, 'A user email must be less than 40 characters'],
-      validate: [validator.isEmail, 'Please provide a valid email address'],
     },
     password: {
       type: String,
@@ -34,14 +30,6 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isWaiter: {
-        type: Boolean,
-        default: false
-    },
-    isChef: {
-        type: Boolean,
-        default: false
-    }
 }, { timestamps: true });
 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
