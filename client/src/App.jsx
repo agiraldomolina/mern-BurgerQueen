@@ -7,6 +7,7 @@ import About from './pages/About'
 import Header from './components/Header'
 import Search from './pages/Search'
 import Menu from './pages/Menu'
+import  Footer  from './components/Footer'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/search" element={<Search/>} />
         <Route path="/menu" element={<Menu/>} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   )
 }
