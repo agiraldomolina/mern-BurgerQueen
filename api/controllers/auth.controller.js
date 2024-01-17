@@ -5,10 +5,12 @@ import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = catchAsync(async (req, res, next) => {
-    console.log(req.body);
+    //console.log(req.body);
     const {role, email, password} = req.body;
-    if (!role ||!email ||!password || role==="" || email==="" || password==="" ) return next(errorHandler(400, 'Please fill all the fields'));
-
+    if (!role ||!email ||!password || role==="" || email==="" || password==="" ) {
+        console.log("hi from error");
+        return next(errorHandler(400, 'Please fill all the fields'));
+    }
     // hash password
     const hashedPassword =  bcryptjs.hashSync(password, 10);
 

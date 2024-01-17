@@ -9,7 +9,7 @@ export default function Header() {
   const path= useLocation().pathname
   return (
     //div>Header</div>
-    <Navbar className='border-b-2'>
+    <Navbar className='border-b-2 bg-rgba(243, 229, 171, 1)'>
        <Link to='/' className='flex text-sm sm:text-xl font-semibold dark:text-white'>
         <span className='flex items-end'>
           <img src={burgerIcon} alt='burger icon' className='h-10 w-10' />
@@ -52,16 +52,16 @@ export default function Header() {
         <Navbar.Toggle/>
       </div>
       <Navbar.Collapse>
-        <Navbar.Link activeClassname='active' active={path ==='/'} as='div'>
+        <Navbar.Link activeclassname='active' active={path ==='/'} as='div'>
           <Link to='/' className='custon-link'>Home</Link>
         </Navbar.Link>
-        <Navbar.Link activeClassname='active' active={path === '/profile'} as='div'>
+        <Navbar.Link activeclassname='active' active={path === '/profile'} as='div'>
           <Link to='/profile' className='custon-link'>Profile</Link>
         </Navbar.Link>
-        <Navbar.Link activeClassname='active' active={path === '/menu'} as='div'>
-          <Link to='/menu'classaNme='custon-link'>Our Menu</Link>
+        <Navbar.Link activeclassname='active' active={path === '/menu'} as='div'>
+          <Link to='/menu'className='custon-link'>Our Menu</Link>
         </Navbar.Link>
-        <Navbar.Link activeClassname='active' active={path === '/about'} as='div'>
+        <Navbar.Link activeclassname='active' active={path === '/about'} as='div'>
           <Link to='/about' className='custon-link'>About</Link>
         </Navbar.Link>
       </Navbar.Collapse>

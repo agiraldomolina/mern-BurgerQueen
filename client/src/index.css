@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body{
+    background-color: rgba(243, 229, 171, 0.1);
+}
+
+select{
+    border-radius: 8px;
+    border-color: #9CA3AF;
+    background-color: rgba(249 250 251,0.4);
+    color:#374151;
+    font-size: medium;
+}
 .custom-link{
     color:lightgray
 }
