@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-link{
+    color:lightgray
+}
+
+.custom-link-active{
+    color:burlywood
+}
+
+.bg-cyan-700{
+    background-color: rgba(255, 94, 0, 0.8);
+}
