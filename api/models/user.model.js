@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import bcryptjs from 'bcryptjs';
-import validator from 'validator';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
     role: {
@@ -20,7 +19,6 @@ const userSchema = new mongoose.Schema({
       required: [true, 'Please provide a password'],
       trim: true,
       minLength: [6, 'A user password must be at least 8 characters long'],
-      select: false,
     },
     avatar:{
         type: String,
@@ -33,7 +31,7 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
-    return await bcryptjs.compare(candidatePassword, userPassword);
+    return await bcrypt.compare(candidatePassword, userPassword);
   };
 
 const User = mongoose.model('User', userSchema);
