@@ -4,15 +4,21 @@ import burgerIcon from '../assets/images/burgerIcon.png'
 import {HiMail, HiUserCircle} from'react-icons/hi'
 import { Alert, Button, Label, Select, Spinner, TextInput } from 'flowbite-react'
 import {FaEye, FaEyeSlash} from'react-icons/fa'
+import { useDispatch, useSelector} from 'react-redux'
+import { 
+  signInStart,
+  sigInSuccess,
+  sigInFailure
+    } from '../redux/user/userSlice'
 //import hatChef from '../assets/images/hatChef.png'
 
 export default function SignIn() {
-  //const roleIcon = role=== 'waiter'? <FaEyeSlash /> : <faHatChef />
+  const dispatch = useDispatch()
+  const {loading, error: errorMessage}=useSelector(state=>state.user)
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({})
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [loading, setLoading] = useState(false)
+  
 
 
   console.log(formData)
@@ -25,11 +31,10 @@ export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     if(!formData.email ||!formData.password ||  formData.email==='' || formData.password === '') {
-      return setErrorMessage('All fields are required')
+      return dispatch(sigInFailure('Please fill up all fields'))
     }
     try {
-      setLoading(true)
-      setErrorMessage(null)
+      dispatch(signInStart())
       const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
@@ -39,14 +44,14 @@ export default function SignIn() {
       })
       const data = await response.json()
       if (data.success === false) {
-        setLoading(false)
-        return setErrorMessage(data.message)
+        dispatch(sigInFailure(data.message))
       }
-      setLoading(false)
-      if(response.ok) navigate('/profile')
+      if(response.ok) {
+        dispatch(sigInSuccess(data))
+        navigate('/')
+      }
     } catch (error) {
-      setErrorMessage(error.message)
-      setLoading(false)
+      dispatch(sigInFailure(error.message))
     }
   }
 
