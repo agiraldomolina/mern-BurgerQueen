@@ -63,5 +63,55 @@ export const signin = catchAsync(async (req, res, next) => {
     )
     .json(userWithoutPassword);
 })
-
+export const googleSignin = catchAsync(async (req, res, next) => {
+    const {email, googlePhotoUrl} = req.body;
+    const user = await User.findOne({email});
+    if (user){
+        const token = jwt.sign(
+            {
+                _id: user._id, 
+                isAdmin: user.role === 'admin',
+                isWaiter: user.role === 'waiter',
+                isChef: user.role === 'chef'
+            },
+            process.env.JWT_SECRET
+        );
+        const {password: pass,...userWithoutPassword} = user._doc;
+        res
+        .status(200)
+        .cookie(
+            'access-token', token,
+            {httpOnly: true}
+        )
+        .json(userWithoutPassword);
+    }else{
+        const generatedpassword =
+            Math.random().toString(36).slice(-8) +
+            Math.random().toString(36).slice(-8);
+        const hashedPassword = bcrypt.hashSync(generatedpassword, 10);
+        const newUser = new User({
+            role: 'waiter',
+            email,
+            password: hashedPassword,
+            avatar: googlePhotoUrl
+        })
+        await newUser.save();
+        const token = jwt.sign(
+            {
+                _id: newUser._id, 
+                isAdmin: newUser.role === 'admin',
+                isWaiter: newUser.role === 'waiter',
+                isChef: newUser.role === 'chef'
+            },
+            process.env.JWT_SECRET
+        );
+        const {password: pass,...userWithoutPassword} = newUser._doc;
+        res
+        .status(200)
+        .cookie(
+            'access-token', token,
+            {httpOnly: true}
+        ).json(userWithoutPassword);
+    }
+})
 

@@ -10,6 +10,7 @@ import {
   sigInSuccess,
   sigInFailure
     } from '../redux/user/userSlice'
+import Oauth from '../components/Oauth'
 //import hatChef from '../assets/images/hatChef.png'
 
 export default function SignIn() {
@@ -74,9 +75,9 @@ export default function SignIn() {
           </p>
         </div>
         {/* div for the right side */}
-        <div className='flex flex-col max-w-3xl  sm:flex-1'>
+        <div className='flex flex-col  w-full  px-20 max-w-3xl  sm:flex-1'>
           <form 
-            className='flex flex-col gap-4 w-full'
+            className='flex flex-col gap-4'
             onSubmit={handleSubmit}
           >
             <div>
@@ -127,7 +128,8 @@ export default function SignIn() {
                   'Sign In'
                 )
               }
-            </Button>           
+            </Button> 
+            <Oauth/>          
           </form>
           <div className='flex gap-2 mt-5 text-sm'>
             <span>Don't have an account?</span>

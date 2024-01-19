@@ -1,9 +1,9 @@
 import  { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import burgerIcon from '../assets/images/burgerIcon.png'
-import {HiMail, HiUserCircle} from'react-icons/hi'
 import { Alert, Button, Label, Select, Spinner, TextInput } from 'flowbite-react'
 import {FaEye, FaEyeSlash} from'react-icons/fa'
+import Oauth from '../components/Oauth'
 //import hatChef from '../assets/images/hatChef.png'
 
 export default function SignUp() {
@@ -69,7 +69,7 @@ export default function SignUp() {
           </p>
         </div>
         {/* div for the right side */}
-        <div className='flex flex-col max-w-3xl  sm:flex-1'>
+        <div className='flex flex-col w-full  px-20 max-w-3xl  sm:flex-1'>
           <form 
             className='flex flex-col gap-4 w-full'
             onSubmit={handleSubmit}
@@ -133,7 +133,7 @@ export default function SignUp() {
                 )
               }
             </Button>
-            
+            <Oauth/>          
           </form>
           <div className='flex gap-2 mt-5 text-sm'>
             <span>Already have an account?</span>
