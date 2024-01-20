@@ -113,5 +113,10 @@ export const googleSignin = catchAsync(async (req, res, next) => {
             {httpOnly: true}
         ).json(userWithoutPassword);
     }
-})
+});
+
+export const signout = catchAsync(async (req, res, next) => {
+    res.clearCookie('access-token');
+    res.status(200).json( 'User signed out successfully');
+});
 
