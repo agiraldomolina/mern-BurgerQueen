@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     },
     avatar:{
         type: String,
-        default: 'https://cdn.pixabay.com/photo/2017/09/08/17/00/user-1500849_960_720.png'
     },
     isAdmin: {
         type: Boolean,

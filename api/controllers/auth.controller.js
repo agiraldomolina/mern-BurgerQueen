@@ -61,7 +61,7 @@ export const signin = catchAsync(async (req, res, next) => {
         'access-token', token,
         {httpOnly: true}
     )
-    .json({'accesToken': token, 'user': userWithoutPassword});
+    .json(userWithoutPassword);
 })
 export const googleSignin = catchAsync(async (req, res, next) => {
     const {email, googlePhotoUrl} = req.body;

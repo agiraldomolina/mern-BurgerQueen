@@ -4,6 +4,7 @@ import burgerIcon from '../assets/images/burgerIcon.png'
 import {AiOutlineSearch} from'react-icons/ai'
 import {FaMoon, FaSun} from'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
+import userIcon from '../assets/images/userIcon.png'
 import {
   signOutStart,
   signOutSuccess,
@@ -78,7 +79,7 @@ export default function Header() {
         {currentUser?
           (
             <Dropdown
-              label={<Avatar alt="User" img={currentUser.avatar} rounded />}
+              label={<Avatar alt="User" img={currentUser.avatar === ""? userIcon : currentUser.avatar} rounded />}
               arrowIcon={false}
               inline
             >
@@ -86,7 +87,7 @@ export default function Header() {
                 <span className="block text-sm">{currentUser.email}</span>
                 <span className="block truncate text-sm font-medium">{currentUser.role}</span>
               </Dropdown.Header>
-                <Link to={'/dasboard?tab=profile'}>
+                <Link to={'/dashboard?tab=profile'}>
                   <Dropdown.Item>Profile</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />

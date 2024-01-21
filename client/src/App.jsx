@@ -10,6 +10,8 @@ import Menu from './pages/Menu'
 import  Footer  from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/Dashboard'
+import Products from './components/Products'
+import Orders from './components/Orders'
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
         <Route path="/menu" element={<Menu/>} />
         <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/products" element={<Products/>}/>
+          <Route path="/orders" element={<Orders/>}/>
         </Route>
       </Routes>
       <Footer/>
