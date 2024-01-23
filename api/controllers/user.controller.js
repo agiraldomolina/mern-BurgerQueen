@@ -11,7 +11,7 @@ export const updateUser = catchAsync(async (req, res, next) => {
     console.log('req.params:' + JSON.stringify (req.params.userId));
     console.log('req.user._id: '+ req.user._id);
     if(req.user._id!== req.params.userId && !req.user.isAdmin){
-        return next(errorHandler(401, 'You are not allow to update this user from updateUser'));
+        return next(errorHandler(401, 'You are not allow to update this user'));
     }
 
     if (req.body.password){
