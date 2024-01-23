@@ -120,7 +120,8 @@ export default function DashProfile() {
                 type="text"
                 id="role"
                 placeholder="role"
-                defaultValue={currentUser.role}              
+                defaultValue={currentUser.role}
+                {...(currentUser.role === "admin"? {disabled: false} : {disabled:true})}                      
             />
             <TextInput
                 type="text"

@@ -27,7 +27,7 @@ export const signup = catchAsync(async (req, res, next) => {
 export const signin = catchAsync(async (req, res, next) => {
     //get data from body
     const {email, password} = req.body;
-     console.log('email and password from body: ' + JSON.stringify(req.body) );
+    // console.log('email and password from body: ' + JSON.stringify(req.body) );
 
     // check if email and password exist
     if (!email ||!password || email==="" || password===""){
@@ -36,7 +36,7 @@ export const signin = catchAsync(async (req, res, next) => {
     } 
     // look for user by email
     const user = await User.findOne({email});
-    console.log('user from db:'+ JSON.stringify(user) );
+    //console.log('user from db:'+ JSON.stringify(user) );
 
     // check if user exist and if password is correct
     if (!user || !await user.correctPassword(password,user.password)) return next(errorHandler(400, 'Invalid email or password'));
@@ -45,11 +45,11 @@ export const signin = catchAsync(async (req, res, next) => {
     const token = jwt.sign(
         {
             _id: user._id, 
-            isAdmin: user.role === 'admin',
-            isWaiter: user.role === 'waiter',
-            isChef: user.role === 'chef'
+            isAdmin: user.isAdmin,
         }, 
         process.env.JWT_SECRET);
+
+    console.log('token from signin: ' + token);
 
     //destructuring the user object
     const{password: pass, ...userWithoutPassword} = user._doc;
@@ -58,7 +58,7 @@ export const signin = catchAsync(async (req, res, next) => {
     res
     .status(200)
     .cookie(
-        'access-token', token,
+        'access_token', token,
         {httpOnly: true}
     )
     .json(userWithoutPassword);
@@ -70,9 +70,7 @@ export const googleSignin = catchAsync(async (req, res, next) => {
         const token = jwt.sign(
             {
                 _id: user._id, 
-                isAdmin: user.role === 'admin',
-                isWaiter: user.role === 'waiter',
-                isChef: user.role === 'chef'
+                isAdmin: user.isAdmin,
             },
             process.env.JWT_SECRET
         );
@@ -80,7 +78,7 @@ export const googleSignin = catchAsync(async (req, res, next) => {
         res
         .status(200)
         .cookie(
-            'access-token', token,
+            'access_token', token,
             {httpOnly: true}
         )
         .json(userWithoutPassword);
@@ -99,9 +97,7 @@ export const googleSignin = catchAsync(async (req, res, next) => {
         const token = jwt.sign(
             {
                 _id: newUser._id, 
-                isAdmin: newUser.role === 'admin',
-                isWaiter: newUser.role === 'waiter',
-                isChef: newUser.role === 'chef'
+                isAdmin: user.isAdmin,
             },
             process.env.JWT_SECRET
         );
@@ -109,14 +105,14 @@ export const googleSignin = catchAsync(async (req, res, next) => {
         res
         .status(200)
         .cookie(
-            'access-token', token,
+            'access_token', token,
             {httpOnly: true}
         ).json(userWithoutPassword);
     }
 });
 
 export const signout = catchAsync(async (req, res, next) => {
-    res.clearCookie('access-token');
+    res.clearCookie('access_token');
     res.status(200).json( 'User signed out successfully');
 });
 
