@@ -7,7 +7,7 @@ import{
     GoogleAuthProvider,
     signInWithPopup
 } from "firebase/auth";
-import {sigInSuccess} from '../redux/user/userSlice'
+import {signInSuccess} from '../redux/user/userSlice'
 import { useNavigate } from "react-router-dom";
 
 export default function Oauth() {
@@ -33,7 +33,7 @@ export default function Oauth() {
             const data = await response.json()
             console.log(data)
             if (response.ok){
-                dispatch(sigInSuccess(data))
+                dispatch(signInSuccess(data))
                 navigate('/')
             }
         } catch (error) {

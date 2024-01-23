@@ -1,14 +1,14 @@
 import  { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import burgerIcon from '../assets/images/burgerIcon.png'
-import {HiMail, HiUserCircle} from'react-icons/hi'
+import {HiMail} from'react-icons/hi'
 import { Alert, Button, Label, Select, Spinner, TextInput } from 'flowbite-react'
 import {FaEye, FaEyeSlash} from'react-icons/fa'
 import { useDispatch, useSelector} from 'react-redux'
 import { 
   signInStart,
-  sigInSuccess,
-  sigInFailure
+  signInSuccess,
+  signInFailure
     } from '../redux/user/userSlice'
 import Oauth from '../components/Oauth'
 //import hatChef from '../assets/images/hatChef.png'
@@ -32,7 +32,7 @@ export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     if(!formData.email ||!formData.password ||  formData.email==='' || formData.password === '') {
-      return dispatch(sigInFailure('Please fill up all fields'))
+      return dispatch(signInFailure('Please fill up all fields'))
     }
     try {
       dispatch(signInStart())
@@ -48,7 +48,7 @@ export default function SignIn() {
         dispatch(sigInFailure(data.message))
       }
       if(response.ok) {
-        dispatch(sigInSuccess(data))
+        dispatch(signInSuccess(data))
         navigate('/')
       }
     } catch (error) {
