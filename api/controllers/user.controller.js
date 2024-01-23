@@ -34,4 +34,17 @@ export const updateUser = catchAsync(async (req, res, next) => {
     res
     .status(200)
     .json(userWithoutPassword)
+});
+
+export const deleteUser = catchAsync(async (req, res, next) => {
+    //console.log ('hi from deleteUser');
+    if (req.user.isAdmin || req.user._id === req.params.userId ) {
+        await User.findByIdAndDelete(req.params.userId);
+        res.clearCookie('access_token');
+        res
+        .status(200)
+        .json('User deleted successfully')
+    }else{
+        return next( errorHandler(403, 'You are not allow to delete this user'));
+    }
 })
