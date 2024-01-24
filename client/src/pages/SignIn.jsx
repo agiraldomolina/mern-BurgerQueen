@@ -45,14 +45,14 @@ export default function SignIn() {
       })
       const data = await response.json()
       if (data.success === false) {
-        dispatch(sigInFailure(data.message))
+        dispatch(signInFailure(data.message))
       }
       if(response.ok) {
         dispatch(signInSuccess(data))
         navigate('/')
       }
     } catch (error) {
-      dispatch(sigInFailure(error.message))
+      dispatch(signInFailure(error.message))
     }
   }
 

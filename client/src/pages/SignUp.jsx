@@ -1,9 +1,10 @@
 import  { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import burgerIcon from '../assets/images/burgerIcon.png'
-import { Alert, Button, Label, Select, Spinner, TextInput } from 'flowbite-react'
+import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import {FaEye, FaEyeSlash} from'react-icons/fa'
 import Oauth from '../components/Oauth'
+import { HiMail } from 'react-icons/hi'
 //import hatChef from '../assets/images/hatChef.png'
 
 export default function SignUp() {

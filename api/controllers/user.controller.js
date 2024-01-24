@@ -7,7 +7,7 @@ export const test = (req, res) => {
 }
 
 export const updateUser = catchAsync(async (req, res, next) => {
-    //console.log('req.body:' + JSON.stringify (req.body));
+    console.log('req.body:' + JSON.stringify (req.body));
     console.log('req.params:' + JSON.stringify (req.params.userId));
     console.log('req.user._id: '+ req.user._id);
     if(req.user._id!== req.params.userId && !req.user.isAdmin){
