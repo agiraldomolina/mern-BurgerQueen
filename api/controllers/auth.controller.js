@@ -24,6 +24,30 @@ export const signup = catchAsync(async (req, res, next) => {
      res.json({mesage: 'User created successfully'});
 });
 
+const createSendToken =(user, statusCode, res) => {
+    const token = jwt.sign({
+        _id: user._id,
+        isAdmin: user.isAdmin,
+        isWaiter: user.role === 'waiter',
+        isChef: user.role === 'chef',      
+    }, process.env.JWT_SECRET)
+
+    console.log('token from signin: ' + token);
+
+    //destructuring the user object
+    const{password: pass, ...userWithoutPassword} = user._doc;
+
+    //send the token to the client
+    res
+    .status(200)
+    .cookie(
+        'access_token', token,
+        {httpOnly: true}
+    )
+    .json(userWithoutPassword);
+}
+
+
 export const signin = catchAsync(async (req, res, next) => {
     //get data from body
     const {email, password} = req.body;
@@ -39,49 +63,16 @@ export const signin = catchAsync(async (req, res, next) => {
     //console.log('user from db:'+ JSON.stringify(user) );
 
     // check if user exist and if password is correct
-    if (!user || !await user.correctPassword(password,user.password)) return next(errorHandler(400, 'Invalid email or password'));
-    
+    if (!user || !await user.correctPassword(password,user.password)) return next(errorHandler(400, 'Invalid email or password'));   
     //create a token
-    const token = jwt.sign(
-        {
-            _id: user._id, 
-            isAdmin: user.isAdmin,
-        }, 
-        process.env.JWT_SECRET);
-
-    console.log('token from signin: ' + token);
-
-    //destructuring the user object
-    const{password: pass, ...userWithoutPassword} = user._doc;
-
-    //send the token to the client
-    res
-    .status(200)
-    .cookie(
-        'access_token', token,
-        {httpOnly: true}
-    )
-    .json(userWithoutPassword);
+    createSendToken(user, 201, res);
 })
 export const googleSignin = catchAsync(async (req, res, next) => {
     const {email, googlePhotoUrl} = req.body;
+    console.log ('googlePhotoUrl from signin: ' + googlePhotoUrl);
     const user = await User.findOne({email});
     if (user){
-        const token = jwt.sign(
-            {
-                _id: user._id, 
-                isAdmin: user.isAdmin,
-            },
-            process.env.JWT_SECRET
-        );
-        const {password: pass,...userWithoutPassword} = user._doc;
-        res
-        .status(200)
-        .cookie(
-            'access_token', token,
-            {httpOnly: true}
-        )
-        .json(userWithoutPassword);
+        createSendToken(user, 201, res);
     }else{
         const generatedpassword =
             Math.random().toString(36).slice(-8) +
@@ -94,20 +85,7 @@ export const googleSignin = catchAsync(async (req, res, next) => {
             avatar: googlePhotoUrl
         })
         await newUser.save();
-        const token = jwt.sign(
-            {
-                _id: newUser._id, 
-                isAdmin: user.isAdmin,
-            },
-            process.env.JWT_SECRET
-        );
-        const {password: pass,...userWithoutPassword} = newUser._doc;
-        res
-        .status(200)
-        .cookie(
-            'access_token', token,
-            {httpOnly: true}
-        ).json(userWithoutPassword);
+        createSendToken(newUser, 201, res);
     }
 });
 
