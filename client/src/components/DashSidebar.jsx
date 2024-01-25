@@ -1,6 +1,6 @@
 import {Sidebar} from 'flowbite-react'
 import {HiOutlineArrowSmRight, HiUser} from 'react-icons/hi'
-import {FaCoffee, FaRegListAlt } from'react-icons/fa'
+import {FaCoffee, FaGulp, FaHandHoldingMedical, FaRegListAlt } from'react-icons/fa'
 import {useSelector, useDispatch} from'react-redux'
 import {
     signOutStart,
@@ -38,9 +38,19 @@ export default function DashSidebar() {
                 >
                    Profile
                 </Sidebar.Item>
+                {currentUser && currentUser.isAdmin &&(
+                    <Link to="/createProduct">
+                        <Sidebar.Item
+                            icon ={FaHandHoldingMedical}
+                            as="div"
+                        >
+                            Create New Product
+                        </Sidebar.Item>
+                    </Link>
+                )}
                 <Link to="/products">
                     <Sidebar.Item
-                        icon ={FaCoffee }
+                        icon ={FaGulp}
                         labelColor="dark"
                         as="div"
                     >
