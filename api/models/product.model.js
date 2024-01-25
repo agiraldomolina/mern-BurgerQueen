@@ -20,7 +20,7 @@ const producSchema = new mongoose.Schema({
       type: String,
       required: [true, 'A product must have a type'],
       enum:{
-        values :['breakfast', 'lunch', 'dinner'],
+        values :['breakfast', 'lunch', 'dinner', 'dessert','slide', 'beverage'],
         message:'Type must be either breakfast, lunch or dinner'
       }
     },
