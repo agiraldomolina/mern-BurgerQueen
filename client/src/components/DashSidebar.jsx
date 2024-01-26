@@ -39,7 +39,7 @@ export default function DashSidebar() {
                    Profile
                 </Sidebar.Item>
                 {currentUser && currentUser.isAdmin &&(
-                    <Link to="/createProduct">
+                    <Link to="/create-product">
                         <Sidebar.Item
                             icon ={FaHandHoldingMedical}
                             as="div"

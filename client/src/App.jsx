@@ -14,6 +14,7 @@ import Products from './pages/Products'
 import Orders from './pages/Orders'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import CreateProduct from './pages/CreateProduct'
+import UpdateProduct from './pages/UpdateProduct'
 
 export default function App() {
   return (
@@ -33,7 +34,8 @@ export default function App() {
           <Route path="/orders" element={<Orders/>}/>
         </Route>
         <Route element={<OnlyAdminPrivateRoute/>}>
-          <Route path="/createProduct" element={<CreateProduct/>}/>
+          <Route path="/create-product" element={<CreateProduct/>}/>
+          <Route path="/update-product" element={<UpdateProduct/>}/>
         </Route>
       </Routes>
       <Footer/>
