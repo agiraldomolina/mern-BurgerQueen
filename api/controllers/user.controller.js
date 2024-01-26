@@ -47,4 +47,35 @@ export const deleteUser = catchAsync(async (req, res, next) => {
     }else{
         return next( errorHandler(403, 'You are not allow to delete this user'));
     }
+});
+
+export const getUsers = catchAsync(async (req, res, next) => {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const sortDirection = req.query.order === 'asc'? 1 : -1;
+    
+    const projection ={
+        email: 1,
+        role: 1,
+        avatar: 1,
+        updatedAt: 1
+    };
+
+    const users = await User.find({
+        ...(req.query.role && {role: req.query.role}),
+        ...(req.query.email && {email: req.query.email}),
+        ...(req.query.userId && {_id: req.query.userId}),      
+    }, projection)
+    .sort({updatedAt: sortDirection})
+    .skip(startIndex)
+    .limit(limit);
+
+    const totalUsers = await User.countDocuments();
+
+    res
+    .status(200)
+    .json({
+        users,
+        totalUsers
+    })
 })
