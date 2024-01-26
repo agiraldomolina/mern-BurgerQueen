@@ -28,12 +28,17 @@ const producSchema = new mongoose.Schema({
       type: String,
       trim: true,
     },
+    slug:{
+      type: String,
+      required: true,
+      unique: true,
+    },
     dateEntry:{
       type: Date,
       default: Date.now,
       select: false
     }
-  });
+  }, {timestamps: true});
   
   const Product = mongoose.model('product', producSchema);
 

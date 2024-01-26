@@ -9,8 +9,8 @@ body{
 
 select{
     border-radius: 8px;
-    border-color: #9CA3AF;
-    background-color: rgba(249 250 251,0.4);
+    border-color: #c9cdd4;
+    background-color: rgba(249 250 251,0.5);
     color:rgba(17, 24, 39, 0.7);
     font-size: 0.875rem;
 }
