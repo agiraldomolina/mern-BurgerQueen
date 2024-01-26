@@ -50,7 +50,7 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 });
 
 export const getProducts = catchAsync(async (req, res, next) => {
-    const startIndex = parseInt(req.query.start) || 0;
+    const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const sortDirection = req.query.order === 'asc'? 1 : -1;
 

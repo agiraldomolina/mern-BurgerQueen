@@ -1,10 +1,12 @@
 import { Table } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 
 export default function DashProducts() {
     const {currentUser} = useSelector(state => state.user)
     const [products, setProducts] = useState([])
+    const [showMore, setShowMore] = useState(true)
 
     console.log(products)
 
@@ -15,6 +17,7 @@ export default function DashProducts() {
                 const data = await response.json();
                 if (response.ok) {
                     setProducts(data.products);
+                    if (data.products.length < 10) setShowMore(false)
                 }
                 return data;
             } catch (error) {
@@ -24,8 +27,22 @@ export default function DashProducts() {
         if (currentUser.isAdmin) fetchProducts(); 
     }, [currentUser.isAdmin])
 
+    const handleShowMore = async() => {
+        const startIndex= products.length
+        try {
+            const response = await fetch(`/api/product/get?startIndex=${startIndex}`)
+            const data = await response.json();
+            if(response.ok) {
+                setProducts((prev)=> [...prev,...data.products])
+                if (data.products.length < 10) setShowMore(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
-    <div>
+    <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
         {currentUser.isAdmin && products.map.length > 0 ?(
             <>
                 <Table
@@ -47,14 +64,21 @@ export default function DashProducts() {
                                     {new Date(product.dateEntry).toLocaleDateString()}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <img 
-                                        src={product.image}
-                                        alt={product.name}
-                                        className="h-10 w-20 object-cover bg-gray-500" 
-                                    />
+                                    <Link to={`/product/${product.slug}`}>
+                                        <img 
+                                            src={product.image}
+                                            alt={product.name}
+                                            className="h-10 w-20 object-cover bg-gray-500" 
+                                        />
+                                    </Link>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {product.name}
+                                    <Link
+                                        to={`/product/${product.slug}`}
+                                        className="font-medium text-gray-900 dark:text-white"
+                                    >
+                                        {product.name}
+                                    </Link>
                                 </Table.Cell>
                                 <Table.Cell>
                                     {product.type}
@@ -62,11 +86,38 @@ export default function DashProducts() {
                                 <Table.Cell>
                                     {product.price}
                                 </Table.Cell>
+                                <Table.Cell>
+                                    <Link
+                                        to={`/update-product/${product._id}`}
+                                        className="text-teal-500 hover:underline"
+                                    >
+                                        <span>
+                                            Edit
+                                        </span>
+                                    </Link>
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <span
+                                        className="text-red-500 hover:underline cursor-pointer"
+                                    >
+                                        Delete
+                                    </span>
+                                </Table.Cell>
                                 
                             </Table.Row>
                         </Table.Body>
                     ))}
                 </Table>
+                {
+                    showMore && (
+                        <button
+                            className="w-full text-teal-500 self-center text-sm py-7"
+                            onClick={handleShowMore}
+                        >
+                            Show More Results
+                        </button>
+                    )
+                }
             </>
 
         ):(
