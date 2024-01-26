@@ -1,5 +1,5 @@
 import {Sidebar} from 'flowbite-react'
-import {HiOutlineArrowSmRight, HiUser} from 'react-icons/hi'
+import {HiOutlineArrowSmRight, HiOutlineUserGroup, HiUser} from 'react-icons/hi'
 import {FaCoffee, FaGulp, FaHandHoldingMedical, FaRegListAlt } from'react-icons/fa'
 import {useSelector, useDispatch} from'react-redux'
 import {
@@ -62,6 +62,14 @@ export default function DashSidebar() {
                         </>
                     )
                 }
+                <Link to="/dashboard?tab=users">
+                    <Sidebar.Item
+                        icon ={HiOutlineUserGroup}
+                        as="div"
+                    >
+                        Users
+                    </Sidebar.Item>
+                </Link>
                 <Link to="/orders">
                     <Sidebar.Item
                         icon ={FaRegListAlt}
