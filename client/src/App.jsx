@@ -35,7 +35,7 @@ export default function App() {
         </Route>
         <Route element={<OnlyAdminPrivateRoute/>}>
           <Route path="/create-product" element={<CreateProduct/>}/>
-          <Route path="/update-product" element={<UpdateProduct/>}/>
+          <Route path="/update-product/:productId" element={<UpdateProduct/>}/>
         </Route>
       </Routes>
       <Footer/>

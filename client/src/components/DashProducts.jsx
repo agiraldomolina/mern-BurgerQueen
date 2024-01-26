@@ -51,7 +51,7 @@ export default function DashProducts() {
                 method: 'DELETE',
             });
             const data = await response.json();
-            if(!response.ok) {
+            if(!response.ok || data.success === false) {
                 return
             }else{
                 setProducts((prev)=>

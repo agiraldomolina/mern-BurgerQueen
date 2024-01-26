@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import producRoutes from './routes/product.route.js';
@@ -20,6 +21,15 @@ app.use(express.json());
 //To allow broser to extract token from cookie
 app.use(cookieParser());
 
+
+const corsOptions = {
+    origin: 'http://localhost:8080',
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.listen(8080, () => {
     console.log('Server running on port 8080');
 })
