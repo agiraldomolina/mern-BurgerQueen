@@ -1,12 +1,15 @@
-import { Table } from "flowbite-react"
+import { Button, Modal, Table } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import {HiOutlineExclamationCircle} from "react-icons/hi"
 
 export default function DashProducts() {
     const {currentUser} = useSelector(state => state.user)
     const [products, setProducts] = useState([])
+    const [productIdToDelete, setProductIdToDelete] = useState('')
     const [showMore, setShowMore] = useState(true)
+    const [showModal, setShowModal] = useState(false)
 
     console.log(products)
 
@@ -35,6 +38,24 @@ export default function DashProducts() {
             if(response.ok) {
                 setProducts((prev)=> [...prev,...data.products])
                 if (data.products.length < 10) setShowMore(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleDeleteProduct = async()=>{
+        setShowModal(false)
+        try {
+            const response = await fetch(`/api/product/delete/${productIdToDelete}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            if(!response.ok) {
+                return
+            }else{
+                setProducts((prev)=>
+                prev.filter(product => product._id!== productIdToDelete))
             }
         } catch (error) {
             console.log(error)
@@ -99,6 +120,11 @@ export default function DashProducts() {
                                 <Table.Cell>
                                     <span
                                         className="text-red-500 hover:underline cursor-pointer"
+                                        onClick={()=>{
+                                            setShowModal(true)
+                                            setProductIdToDelete(product._id)
+                                            }
+                                        }                                  
                                     >
                                         Delete
                                     </span>
@@ -123,6 +149,30 @@ export default function DashProducts() {
         ):(
             <p>There are no products</p>
         )}
+        <Modal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            popup
+            size='md'
+        >
+            <Modal.Header />
+            <Modal.Body>
+            <div className='text-center'>
+                <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+                <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+                Are you sure you want to delete this product?
+                </h3>
+                <div className='flex justify-center gap-4'>
+                <Button color='failure' onClick={handleDeleteProduct}>
+                    Yes, I'm sure
+                </Button>
+                <Button color='gray' onClick={() => setShowModal(false)}>
+                    No, cancel
+                </Button>
+                </div>
+            </div>
+            </Modal.Body>
+        </Modal>
     </div>
   )
 }
