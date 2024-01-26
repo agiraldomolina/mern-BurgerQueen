@@ -48,15 +48,20 @@ export default function DashSidebar() {
                         </Sidebar.Item>
                     </Link>
                 )}
-                <Link to="/products">
-                    <Sidebar.Item
-                        icon ={FaGulp}
-                        labelColor="dark"
-                        as="div"
-                    >
-                        Products
-                    </Sidebar.Item>
-                </Link>
+                {
+                    currentUser.isAdmin && (
+                        <>
+                            <Link to="/dashboard?tab=products">
+                                <Sidebar.Item
+                                    icon ={FaGulp}
+                                    as="div"
+                                >
+                                    Manage Products
+                                </Sidebar.Item>
+                            </Link>
+                        </>
+                    )
+                }
                 <Link to="/orders">
                     <Sidebar.Item
                         icon ={FaRegListAlt}

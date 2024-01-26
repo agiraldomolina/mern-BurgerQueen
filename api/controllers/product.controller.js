@@ -53,6 +53,17 @@ export const getProducts = catchAsync(async (req, res, next) => {
     const startIndex = parseInt(req.query.start) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const sortDirection = req.query.order === 'asc'? 1 : -1;
+
+    const projection ={
+        name: 1,
+        price: 1,
+        image: 1,
+        type: 1,
+        description: 1,
+        slug: 1,
+        dateEntry: 1,
+    }
+
     const products = await Product.find({
         ...(req.query.type && {type: req.query.type}),
         ...(req.query.slug && {slug: req.query.slug}),
@@ -63,8 +74,10 @@ export const getProducts = catchAsync(async (req, res, next) => {
                 {description: { $regex: req.query.searchTerm, $options: 'i' }},
             ],
         }),
-    })
-    .sort({updatedAt: sortDirection})
+    },
+    projection
+    )
+    .sort({dateEntry: sortDirection})
     .skip(startIndex)
     .limit(limit);
 
