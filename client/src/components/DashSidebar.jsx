@@ -72,7 +72,7 @@ export default function DashSidebar() {
                         Users
                     </Sidebar.Item>
                 </Link>
-                <Link to="/orders">
+                <Link to="/dashboard?tab=orders">
                     <Sidebar.Item
                         icon ={FaRegListAlt}
                         labelColor="dark"
