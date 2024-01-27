@@ -1,5 +1,6 @@
-import { Table } from "flowbite-react"
+import { Button, Modal, Table } from "flowbite-react"
 import { useState,useEffect } from "react"
+import { HiOutlineExclamationCircle } from "react-icons/hi"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
@@ -8,8 +9,32 @@ export default function DashUsers() {
     const {currentUser} = useSelector(state => state.user)
     const [users, setUsers] = useState([])
     const [showMore, setShowMore] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [userIdToDelete, setUserIdToDelete] = useState(null)
+    const [userMailToDelete, setUserMailToDelete] = useState(null)
 
     console.log(users)
+
+    const handleDeleteUser=async()=> {
+        setShowModal(false)
+        try {
+            const response = await fetch(`/api/user/delete/${userIdToDelete}`,{
+                method: 'DELETE',
+            })
+            const data = await response.json()
+            if(!response.ok || data.success === false){
+                setUserMailToDelete(null)
+                return
+            }else{
+              setUsers((prev)=>
+               prev.filter(user=>user._id!== userIdToDelete))
+               setUserMailToDelete(null)  
+            }
+        } catch (error) {
+           console.log(error)
+           setUserMailToDelete(null)  
+        }
+    }
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -37,7 +62,7 @@ export default function DashUsers() {
             <>
                 <Table hoverable className="shadow-md">
                     <Table.Head>
-                        <Table.HeadCell>Created At</Table.HeadCell>
+                        <Table.HeadCell>Updated</Table.HeadCell>
                         <Table.HeadCell>Imagen</Table.HeadCell>
                         <Table.HeadCell>Email</Table.HeadCell>
                         <Table.HeadCell>Role</Table.HeadCell>
@@ -70,10 +95,24 @@ export default function DashUsers() {
                                             {user._id}
                                         </Table.Cell>
                                         <Table.Cell>
-                                            Edit
+                                            <span
+                                                 className="cursor-pointer text-teal-500"
+                                                 onClick={()=>window.location.href=`/update-user/${user._id}`}
+                                            >
+                                                edit
+                                            </span>
                                         </Table.Cell>
                                         <Table.Cell>
-                                            Delete
+                                            <span
+                                                 className="cursor-pointer text-red-500"
+                                                 onClick={()=>{
+                                                     setUserIdToDelete(user._id)
+                                                    setUserMailToDelete(user.email)
+                                                     setShowModal(true)
+                                                 }}
+                                            >
+                                                Delete
+                                            </span>
                                         </Table.Cell>
                                     </>
                                 )
@@ -85,7 +124,30 @@ export default function DashUsers() {
         ):(
             <p>There are no users to show</p>
         )}
-
+        <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size='md'
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+              {`Are you sure you want to delete ${userMailToDelete}?`}
+            </h3>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={handleDeleteUser}>
+                Yes, I'm sure
+              </Button>
+              <Button color='gray' onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

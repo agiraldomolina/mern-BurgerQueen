@@ -29,15 +29,17 @@ export default function DashSidebar() {
     <Sidebar className='w-full md:w-56'>
         <Sidebar.Items>
             <Sidebar.ItemGroup>
-                <Sidebar.Item
-                    active
-                    icon ={HiUser}
-                    label={currentUser.role}
-                    labelColor="dark"
-                    as="div"
-                >
-                   Profile
-                </Sidebar.Item>
+                <Link to="/dashboard?tab=profile">
+                    <Sidebar.Item
+                        active
+                        icon ={HiUser}
+                        label={currentUser.role}
+                        labelColor="dark"
+                        as="div"
+                    >
+                    Profile
+                    </Sidebar.Item>
+                </Link>
                 {currentUser && currentUser.isAdmin &&(
                     <Link to="/create-product">
                         <Sidebar.Item
