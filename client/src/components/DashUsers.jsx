@@ -1,14 +1,12 @@
 import { Button, Modal, Table } from "flowbite-react"
 import { useState,useEffect } from "react"
 import { HiOutlineExclamationCircle } from "react-icons/hi"
+import userIcon from '../assets/images/userIcon.png'
 import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-
-
 export default function DashUsers() {
     const {currentUser} = useSelector(state => state.user)
     const [users, setUsers] = useState([])
-    const [showMore, setShowMore] = useState(false)
+    const [showMore, setShowMore] = useState(true)
     const [showModal, setShowModal] = useState(false)
     const [userIdToDelete, setUserIdToDelete] = useState(null)
     const [userMailToDelete, setUserMailToDelete] = useState(null)
@@ -43,7 +41,7 @@ export default function DashUsers() {
                 const data = await response.json();
                 if (response.ok) {
                     setUsers(data.users)
-                    if (data.users.length > 10) setShowMore(true)
+                    if (data.users.length < 10) setShowMore(false)
                 }
             return data
             } catch (error) {
@@ -51,7 +49,21 @@ export default function DashUsers() {
             }
         }
         fetchUsers()
-    }, [currentUser])
+    }, [currentUser]);
+
+    const handleShowMore = async() => {
+        const startIndex = users.length;
+        try {
+            const response = await fetch(`/api/user/get?startIndex=${startIndex}`)
+            const data = await response.json();
+            if (response.ok) {
+                setUsers((prev) => [...prev,...data.users])
+                if (data.users.length < 10) setShowMore(false)
+            }
+        } catch (error) {
+         console.log(error)   
+        }
+    }
 
 
   return (
@@ -81,7 +93,7 @@ export default function DashUsers() {
                             <Table.Cell>{new Date(user.updatedAt).toLocaleDateString()}</Table.Cell>
                             <Table.Cell>
                                 <img 
-                                    src={user.avatar}
+                                    src={user.avatar === ""? userIcon : user.avatar}  
                                     alt="user avatar"
                                     className="h-20 w-20 object-cover bg-gray-500 rounded-full" 
                                     />
@@ -120,6 +132,16 @@ export default function DashUsers() {
                         </Table.Body>
                     ))}
                 </Table>
+                {
+                    showMore &&(
+                        <button
+                            onClick={handleShowMore}
+                            className="w-full text-teal-400 font-semibold self-center text-sm py-7"
+                        >
+                            Show More
+                        </button>
+                    )
+                }
             </>
         ):(
             <p>There are no users to show</p>
