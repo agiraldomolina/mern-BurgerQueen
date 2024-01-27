@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import producRoutes from './routes/product.route.js';
+import orderRoutes from './routes/order.route.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware.js';
 
 dotenv.config();
@@ -37,5 +38,6 @@ app.listen(8080, () => {
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', producRoutes)
+app.use('/api/order', orderRoutes)
 
 app.use(errorHandlerMiddleware);
