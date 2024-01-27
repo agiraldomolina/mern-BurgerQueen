@@ -53,7 +53,8 @@ export const getUsers = catchAsync(async (req, res, next) => {
     console.log('hi from getUsers');
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 10;
-    const sortDirection = req.query.order === 'asc'? 1 : -1;
+    const sortBy = req.query.sortBy || 'role';
+    const sortDirection = req.query.order === 'asc'? 'asc' : 'desc';
     
     const projection ={
         email: 1,
@@ -67,7 +68,7 @@ export const getUsers = catchAsync(async (req, res, next) => {
         ...(req.query.email && {email: req.query.email}),
         ...(req.query.userId && {_id: req.query.userId}),      
     }, projection)
-    .sort({updatedAt: sortDirection})
+    .sort([[sortBy, sortDirection]])
     .skip(startIndex)
     .limit(limit);
 

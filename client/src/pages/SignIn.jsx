@@ -22,7 +22,7 @@ export default function SignIn() {
   
 
 
-  console.log(formData)
+  //console.log(formData)
 
   const handleChange =(event) => {
     event.preventDefault()

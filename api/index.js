@@ -22,9 +22,10 @@ app.use(express.json());
 //To allow broser to extract token from cookie
 app.use(cookieParser());
 
+const whiteList = ['http://localhost:8080', 'http://localhost:5173','http://localhost:5174']
 
 const corsOptions = {
-    origin: 'http://localhost:8080',
+    origin: whiteList,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     optionsSuccessStatus: 204,

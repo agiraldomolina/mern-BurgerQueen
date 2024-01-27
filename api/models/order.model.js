@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Product from '../models/product.model.js';
+import User from '../models/user.model.js';
 
 const productsOrderSchema = new mongoose.Schema(
   {
@@ -12,7 +13,7 @@ const productsOrderSchema = new mongoose.Schema(
 const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'User',
+    ref: 'User'
   },
   client: {
     type: String,
@@ -42,6 +43,7 @@ const orderSchema = new mongoose.Schema({
 orderSchema.pre(/^find/, function (next) {
   this .populate({
     path: 'user',
+    select: '_id role email'
   }).
   populate({
     path: 'products',

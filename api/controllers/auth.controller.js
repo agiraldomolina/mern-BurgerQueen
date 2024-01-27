@@ -71,6 +71,7 @@ export const googleSignin = catchAsync(async (req, res, next) => {
     const {email, googlePhotoUrl} = req.body;
     console.log ('googlePhotoUrl from signin: ' + googlePhotoUrl);
     const user = await User.findOne({email});
+    console.log('user from db:'+ JSON.stringify(user) );
     if (user){
         createSendToken(user, 201, res);
     }else{
