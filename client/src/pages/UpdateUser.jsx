@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import {HiOutlineCheckCircle, HiXCircle} from'react-icons/hi';
+import { LuChefHat } from "react-icons/lu";
 import 'react-circular-progressbar/dist/styles.css';
 
 import{
@@ -11,6 +12,7 @@ import{
     updateFailure,
 } from '../redux/user/userSlice'
 import { useState } from "react";
+import { FaUserTie } from "react-icons/fa";
 
 export default function UpdateUser() {
     const dispatch = useDispatch()

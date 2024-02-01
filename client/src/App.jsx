@@ -16,6 +16,7 @@ import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import CreateProduct from './pages/CreateProduct'
 import UpdateProduct from './pages/UpdateProduct'
 import UpdateUser from './pages/UpdateUser'
+import CreateOrder from './pages/CreateOrder'
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/products" element={<Products/>}/>
           <Route path="/orders" element={<Orders/>}/>
+          <Route path="/create-order" element={<CreateOrder/>}/>
         </Route>
         <Route element={<OnlyAdminPrivateRoute/>}>
           <Route path="/create-product" element={<CreateProduct/>}/>

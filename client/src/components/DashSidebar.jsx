@@ -1,6 +1,9 @@
 import {Sidebar} from 'flowbite-react'
 import {HiOutlineArrowSmRight, HiOutlineUserGroup, HiUser} from 'react-icons/hi'
-import {FaCoffee, FaGulp, FaHandHoldingMedical, FaRegListAlt } from'react-icons/fa'
+import {FaGulp, FaHandHoldingMedical, FaRegListAlt } from'react-icons/fa'
+import { FiEdit, FiLogOut } from "react-icons/fi";
+import Dropdown from 'react-multilevel-dropdown';
+
 import {useSelector, useDispatch} from'react-redux'
 import {
     signOutStart,
@@ -24,7 +27,7 @@ export default function DashSidebar() {
             dispatch(signOutFailure(error))
         }
     }
-    //console.log(currentUser)
+    console.log(currentUser)
   return (
     <Sidebar className='w-full md:w-56'>
         <Sidebar.Items>
@@ -64,6 +67,22 @@ export default function DashSidebar() {
                         </>
                     )
                 }
+                {
+                    currentUser.isAdmin || currentUser.role === 'waiter' ? (
+                        <>
+                            <Link to="/create-order">
+                                <Sidebar.Item
+                                    icon ={FiEdit}
+                                    as="div"
+                                >
+                                    Create Order
+                                </Sidebar.Item>
+                            </Link>
+                        </>
+                    ):(
+                        null
+                    )
+                }
                 <Link to="/dashboard?tab=users">
                     <Sidebar.Item
                         icon ={HiOutlineUserGroup}
@@ -82,7 +101,7 @@ export default function DashSidebar() {
                     </Sidebar.Item>
                 </Link>
                 <Sidebar.Item
-                    icon ={HiOutlineArrowSmRight}
+                    icon ={FiLogOut }
                     className="cursor-pointer"
                     onClick={handleSignOut}
                 >
