@@ -17,6 +17,7 @@ import CreateProduct from './pages/CreateProduct'
 import UpdateProduct from './pages/UpdateProduct'
 import UpdateUser from './pages/UpdateUser'
 import CreateOrder from './pages/CreateOrder'
+import ProductDetails from './pages/ProductDetails'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search/>} />
         <Route path="/menu" element={<Menu/>} />
+        <Route path="/product/:id" element={<ProductDetails/>} />
         <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/products" element={<Products/>}/>
