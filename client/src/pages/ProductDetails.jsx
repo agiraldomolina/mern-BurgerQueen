@@ -1,7 +1,7 @@
 import {Button, Card} from 'flowbite-react'
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"
+import axios from 'axios';
 export default function ProductDetails() {
     const { id } = useParams()
     console.log(`/api/product/get?productId=${id}`)
@@ -13,22 +13,12 @@ export default function ProductDetails() {
     //   };
 
     const fetchProduct = async () => {
-        console.log('hi from fetchProduct')
-        try {
-        const response = await fetch(`/api/product/get?productId=${id}`);
-        console.log(response)
-        const data = await response.json();
-        if (response.ok) {
-            setProduct(data.products[0]);
-        }
-        return data;
-        } catch (error) {
-        setProduct([]);
-        }
+        const { data }= await axios.get(`/api/product/get?productId=${id}`)
+        setProduct(data.products[0])
     }
     useEffect(() => {
         fetchProduct();
-    }, []);
+    }, [id]);
    
     return (
         <>
