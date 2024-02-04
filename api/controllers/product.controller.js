@@ -49,6 +49,24 @@ export const updateProduct = catchAsync(async (req, res, next) => {
     json(updatedProduct);
 });
 
+// @description fetch all products
+// @route GET /api/products
+// @access public
+// export const getProducts = catchAsync(async (req, res, next) => {
+//     const products = await Product.find({});
+//     res.json(products);
+// });
+
+// @description fetch a product
+// @route GET /api/products/:id
+// @access public
+export const getProductById = catchAsync(async (req, res, next) => {
+    const product = await Product.findById(req.params.id);
+    res.json(product);
+})
+
+
+
 export const getProducts = catchAsync(async (req, res, next) => {
     //console.log('req.query from getProduts:' + JSON.stringify (req.query));
     const startIndex = parseInt(req.query.startIndex) || 0;

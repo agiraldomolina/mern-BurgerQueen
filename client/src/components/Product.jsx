@@ -1,7 +1,7 @@
 import {Card} from 'flowbite-react'
 import {Link} from 'react-router-dom'
 
-export default function Product( {product, showButton} ) {
+export default function Product( {product,showDescription, showButton} ) {
   return (
     <Card 
       className='my-3 p-3 rounded-lg'
@@ -12,7 +12,9 @@ export default function Product( {product, showButton} ) {
           {product.name}
         </h5>
       </Link>
-      <p>{product.description}</p>
+      {showDescription && (
+        <p>{product.description}</p>
+      )}
       <div className="flex items-center justify-between">
         <span className="text-md  text-gray-900 dark:text-white">Price: ${product.price}</span>
         {showButton && (

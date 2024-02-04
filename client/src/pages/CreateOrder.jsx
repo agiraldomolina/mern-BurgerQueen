@@ -3,14 +3,18 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Dropdown from 'react-multilevel-dropdown'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
+import Product from '../components/Product'
 
 export default function CreateOrder() {
   //const { currentUser } = useSelector(state => state.user)
   const [products, setProducts] = useState([])
   const [formData, setFormData] = useState({})
   const [filteredProducts, setFilteredProducts] = useState([])
+  const [showFilteredProducts, setShowFilteredProducts] = useState(false)
 
   console.log(formData)
+  console.log(products)
   console.log(filteredProducts)
   
 
@@ -25,9 +29,8 @@ export default function CreateOrder() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/product/get?limit=100');
-      const data = await response.json();
-      if (response.ok) {
+      const {data} = await axios.get('/api/product?limit=100');
+      if (data.products.length > 0) {
         setProducts(data.products);
       }
       return data;
@@ -35,31 +38,23 @@ export default function CreateOrder() {
       setProducts([]);
     }
   }
-
-  const handleFilterProducts = (subject) => {
-    const filteredProducts = products.filter(product => product.type === subject)
-    console.log(filteredProducts)
-    setFilteredProducts(filteredProducts)
-  }
-
   
   
   const handleQuery = async (termQuery) => {
     try {
-      const response = await fetch(`/api/product/get?${termQuery}`);
-      const data = await response.json();
-      if (response.ok) {
-        setProducts(data.products);
+      const { data }= await axios.get(`/api/product?type=${termQuery}`)
+      if (data.products.length > 0) {
+        setFilteredProducts(data.products);
+        setShowFilteredProducts(true);
       }
     } catch (error) {
-      setProducts([]);
+      setFilteredProducts([]);
     }
   }
-  
-  
+   
   useEffect(() => {
     fetchProducts();
-    handleFilterProducts(formData.type)
+    handleQuery(formData.type)
   }, [formData.type]);
 
   
@@ -99,6 +94,13 @@ export default function CreateOrder() {
         </div>
         <div>
           <h2>{formData.type}</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" >
+          {showFilteredProducts && filteredProducts.map((product) => (
+            <div key={product._id}>
+              <Product key={product._id} product={product} showDescription={false} showButton={true}/>
+            </div>
+          ))}
         </div>
         <div>
           <Button>

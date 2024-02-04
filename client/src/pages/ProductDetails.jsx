@@ -13,8 +13,8 @@ export default function ProductDetails() {
     //   };
 
     const fetchProduct = async () => {
-        const { data }= await axios.get(`/api/product/get?productId=${id}`)
-        setProduct(data.products[0])
+        const { data }= await axios.get(`/api/product/${id}`)
+        setProduct(data)
     }
     useEffect(() => {
         fetchProduct();

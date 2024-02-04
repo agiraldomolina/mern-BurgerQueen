@@ -16,7 +16,7 @@ export default function DashProducts() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('/api/product/get');
+                const response = await fetch('/api/product');
                 const data = await response.json();
                 if (response.ok) {
                     setProducts(data.products);
@@ -33,7 +33,7 @@ export default function DashProducts() {
     const handleShowMore = async() => {
         const startIndex= products.length
         try {
-            const response = await fetch(`/api/product/get?startIndex=${startIndex}`)
+            const response = await fetch(`/api/product?startIndex=${startIndex}`)
             const data = await response.json();
             if(response.ok) {
                 setProducts((prev)=> [...prev,...data.products])
