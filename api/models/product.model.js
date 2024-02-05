@@ -28,6 +28,11 @@ const producSchema = new mongoose.Schema({
       type: String,
       trim: true,
     },
+    available: {
+      type: Boolean,
+      required: [true, 'A product must have an availability'],
+      default: true
+    },
     slug:{
       type: String,
       required: true,

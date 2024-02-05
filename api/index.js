@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import connectDB from './config/db.js';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import producRoutes from './routes/product.route.js';
@@ -11,9 +12,9 @@ import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware.js'
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO).then(() => {
-    console.log('Connected to MongoDB');
-});
+console.log('from index: '+ process.env.MONGO)
+
+connectDB();
 
 const app = express();
 

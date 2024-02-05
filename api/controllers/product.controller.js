@@ -12,7 +12,7 @@ export const createProduct = catchAsync(async (req, res, next) => {
     .replace(/[^a-zA-Z0-9-]/g,'-');
 
     const newProduct = new Product({
-        ...req.body,slug
+        ...req.body,slug,available: true
     })
     const saveProduct = await newProduct.save();
     res
@@ -79,6 +79,7 @@ export const getProducts = catchAsync(async (req, res, next) => {
         image: 1,
         type: 1,
         description: 1,
+        available: 1,
         slug: 1,
         dateEntry: 1,
     }
@@ -108,4 +109,5 @@ export const getProducts = catchAsync(async (req, res, next) => {
         products,
         totalProducts
     })
+    console.log(products);
 })
