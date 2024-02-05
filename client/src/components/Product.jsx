@@ -1,12 +1,27 @@
-import {Card} from 'flowbite-react'
+import {Button, Card, TextInput} from 'flowbite-react'
 import {Link} from 'react-router-dom'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../redux/shoppingCart/shoppingCartSlice'
 
-export default function Product( {product,showDescription, showButton} ) {
+
+
+export default function Product( {product,showDescription, showButton, showQty} ) {
+  const [qty, setQty] = useState(1)
+  const dispatch = useDispatch()
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({...product, qty}))
+  }
+
   return (
     <Card 
       className='my-3 p-3 rounded-lg'
-      imgSrc={product.image}
     >
+    <img 
+      src={product.image} alt={product.name} 
+      className="rounded-lg h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300" 
+    />
     <Link to={`/product/${product._id}`}>
         <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           {product.name}
@@ -19,15 +34,46 @@ export default function Product( {product,showDescription, showButton} ) {
         <span className="text-md  text-gray-900 dark:text-white">Price: ${product.price}</span>
         {showButton && (
             <>
-              <a
-              href="#"
-              className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+              <Button
+                gradientDuoTone='pinkToOrange'
+                outline
+                disabled={product.available===false?true:false}
+                onClick={addToCartHandler}
             >
               Add to cart
-            </a>
+            </Button>
           </>
-        )}
-        
+        )}      
+      </div>
+      <div className="flex flex-row gap-4">
+        {showQty && (
+            <div className="flex flex-row gap-1 mx-auto">
+              <Button 
+                gradientDuoTone='pinkToOrange'
+                id='downQty'
+                onClick={()=> {setQty(qty-1)}}
+                disabled={qty===0?true:false}
+              >
+                -
+              </Button>
+              <TextInput
+                type='text'
+                id='qtyText'
+                value={qty}
+                style={{ textAlign: 'center' }}
+              >
+
+              </TextInput>
+              <Button 
+                gradientDuoTone='pinkToOrange'
+                id='upQty'
+                onClick={()=> setQty(qty+1)}
+                disabled={product.available===false?true:false}
+              >
+                +
+              </Button>
+            </div>
+          )}
       </div>
     </Card>
   )

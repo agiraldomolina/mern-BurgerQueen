@@ -9,7 +9,7 @@ import persistStore from 'redux-persist/es/persistStore';
 const rootReducer = combineReducers({
     user: userReducer,
     theme: themeReducer,
-    cart: cartReducer,
+    shoppingCart: cartReducer,
     
 
 });

@@ -2,7 +2,7 @@ import { Button, Modal, Table } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import {HiOutlineExclamationCircle} from "react-icons/hi"
+import {HiCheckCircle, HiOutlineExclamationCircle, HiX} from "react-icons/hi"
 
 export default function DashProducts() {
     const {currentUser} = useSelector(state => state.user)
@@ -75,6 +75,7 @@ export default function DashProducts() {
                         <Table.HeadCell>Name</Table.HeadCell>
                         <Table.HeadCell>Type</Table.HeadCell>
                         <Table.HeadCell>Price</Table.HeadCell>
+                        <Table.HeadCell>Available</Table.HeadCell>
                         <Table.HeadCell>Edit</Table.HeadCell>
                         <Table.HeadCell>Delete</Table.HeadCell>
                     </Table.Head>
@@ -106,6 +107,13 @@ export default function DashProducts() {
                                 </Table.Cell>
                                 <Table.Cell>
                                     {product.price}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {product.available?(
+                                        <HiCheckCircle className='h-5w-5 text-green-400 dark:text-green-200 mb-4 mx-auto' />
+                                    ):(
+                                        <HiX className='h-5 w-5 text-red-400 dark:text-red-200 mb-4 mx-auto' />
+                                    )}
                                 </Table.Cell>
                                 <Table.Cell>
                                     <Link

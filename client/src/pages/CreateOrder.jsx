@@ -1,7 +1,5 @@
 import { Button, DropdownItem, Label, Select, TextInput } from 'flowbite-react'
-import React from 'react'
 import { useState, useEffect } from 'react'
-import Dropdown from 'react-multilevel-dropdown'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import Product from '../components/Product'
@@ -16,15 +14,14 @@ export default function CreateOrder() {
   console.log(formData)
   console.log(products)
   console.log(filteredProducts)
+  console.log(filteredProducts[0])
+  //console.log(filteredProducts[0].available)
   
 
   // const subMenuComponent=()=>{
   //   const [showSubMenu, setShowSubMenu] = useState(false)
   // }
 
-  const handleToggleSubMenu=()=>{
-    setShowSubMenu(!showSubMenu)
-  }
   console.log(products)
 
   const fetchProducts = async () => {
@@ -98,7 +95,13 @@ export default function CreateOrder() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" >
           {showFilteredProducts && filteredProducts.map((product) => (
             <div key={product._id}>
-              <Product key={product._id} product={product} showDescription={false} showButton={true}/>
+              <Product 
+                key={product._id} 
+                product={product} 
+                showDescription={false} 
+                showButton={true}
+                showQty={true}
+              />
             </div>
           ))}
         </div>

@@ -125,7 +125,9 @@ export default function CreateProduct() {
                 <option value=''>Choose a type</option>
                 <option value="breakfast">Breakfast</option>
                 <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
                 <option value="slide">Slides</option>
+                <option value="dessert">Desserts</option>
                 <option value="beverage">Beverages</option>
             </select>
             <TextInput

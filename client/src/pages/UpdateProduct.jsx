@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { HiOutlineCheckCircle, HiXCircle } from "react-icons/hi";
-
+import axios from "axios";
 
 
 export default function UpdateProduct() {
@@ -114,15 +114,17 @@ export default function UpdateProduct() {
     if (imagefile) uploadImage()
     try {
         const fetchProduct = async() => {
-            const response = await fetch(`/api/product/get?productId=${productId}`)
-            const data = await response.json()
+          const { data: product }= await axios.get(`/api/product/${productId}`)
+          //const product = data
+            // const response = await fetch(`/api/product/productId=${productId}`)
+            // const data = await response.json()
             //const product = data.products[0]
-            if (!response.ok ||data.success===false) {
+            if (product.success===false) {
                 setPublishError(data.message);
                 return;
             }
             setPublishError(null);
-            setFormData(data.products[0]);
+            setFormData(product);
         }
         fetchProduct()
     } catch (error) {
