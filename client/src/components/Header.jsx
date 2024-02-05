@@ -2,7 +2,7 @@ import {Avatar, Button, Dropdown, Navbar, TextInput} from 'flowbite-react'
 import { Link, useLocation } from 'react-router-dom'
 import burgerIcon from '../assets/images/burgerIcon.png'
 import {AiOutlineSearch} from'react-icons/ai'
-import {FaMoon, FaSun} from'react-icons/fa'
+import {FaMoon, FaShoppingCart, FaSun} from'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import userIcon from '../assets/images/userIcon.png'
 import {
@@ -14,9 +14,12 @@ import { toggleTheme} from '../redux/theme/themeSlice'
 
 export default function Header() {
   const {currentUser} = useSelector(state => state.user)
+  const {cartItems} = useSelector(state => state.shoppingCart)
   const dispatch = useDispatch()
   const path= useLocation().pathname
   const {theme} = useSelector((state) => state.theme)
+
+  console.log('cart items: ' + JSON.stringify( cartItems))
   //console.log(currentUser)
 
   const handleSignOut = async () => {
@@ -76,6 +79,7 @@ export default function Header() {
             theme === 'dark'? <FaSun /> : <FaMoon />
           }
         </Button>
+        
         {currentUser?
           (
             <Dropdown
@@ -104,15 +108,22 @@ export default function Header() {
           )}
         <Navbar.Toggle/>
       </div>
+      <div className="flex items-center">
+          <FaShoppingCart className="mr-2"/>Cart
+          {
+            cartItems.length > 0 && (
+              <Button
+                pill
+                className="ml-2"
+              >
+                {cartItems.reduce((total, item) => total + item.qty, 0)}
+              </Button>
+            )
+          }
+        </div>
       <Navbar.Collapse>
         <Navbar.Link activeclassname='active' active={path ==='/'} as='div'>
           <Link to='/' className='custon-link'>Home</Link>
-        </Navbar.Link>
-        <Navbar.Link activeclassname='active' active={path === '/profile'} as='div'>
-          <Link to='/profile' className='custon-link'>Profile</Link>
-        </Navbar.Link>
-        <Navbar.Link activeclassname='active' active={path === '/menu'} as='div'>
-          <Link to='/menu'className='custon-link'>Our Menu</Link>
         </Navbar.Link>
         <Navbar.Link activeclassname='active' active={path === '/about'} as='div'>
           <Link to='/about' className='custon-link'>About</Link>
