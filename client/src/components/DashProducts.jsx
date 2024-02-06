@@ -1,17 +1,46 @@
 import { Button, Modal, Table } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import {HiCheckCircle, HiOutlineExclamationCircle, HiX} from "react-icons/hi"
+import {IoIosCheckboxOutline,  } from "react-icons/io"
+import {AiOutlineCloseSquare } from "react-icons/ai"
+import axios from "axios"
+
 
 export default function DashProducts() {
     const {currentUser} = useSelector(state => state.user)
     const [products, setProducts] = useState([])
     const [productIdToDelete, setProductIdToDelete] = useState('')
+    const [productId, setProductId] = useState('')
     const [showMore, setShowMore] = useState(true)
     const [showModal, setShowModal] = useState(false)
+    
 
     console.log(products)
+
+    const handleToggleAvailable=async(productId)=>{
+        console.log(productId)
+       try {
+        const currentProductResponse = await fetch(`/api/product/${productId}`);
+        const currentProductData = await currentProductResponse.json();
+
+        const newAvailableValue = currentProductData.available === true ? false : true;
+
+        const response = await fetch(`/api/product/update/${productId.toString()}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                available: newAvailableValue
+            })
+        });
+        const data = await response.json();
+       } catch (error) {
+        console.log(error)
+       } 
+    }
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -109,11 +138,17 @@ export default function DashProducts() {
                                     {product.price}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {product.available?(
-                                        <HiCheckCircle className='h-5w-5 text-green-400 dark:text-green-200 mb-4 mx-auto' />
-                                    ):(
-                                        <HiX className='h-5 w-5 text-red-400 dark:text-red-200 mb-4 mx-auto' />
-                                    )}
+                                    <Button 
+                                        onClick={()=>handleToggleAvailable(product._id)}
+                                        style={{backgroundColor:"transparent"}}
+                                        type="button"
+                                    >
+                                        {product.available?(
+                                            <IoIosCheckboxOutline  className='h-5 w-5 text-green-700 dark:text-green-200 mb-4 mx-auto' />
+                                        ):(
+                                            <AiOutlineCloseSquare  className='h-5 w-5 text-red-700 dark:text-red-200 mb-4 mx-auto' />
+                                        )}
+                                    </Button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <Link
@@ -130,7 +165,7 @@ export default function DashProducts() {
                                         className="text-red-500 hover:underline cursor-pointer"
                                         onClick={()=>{
                                             setShowModal(true)
-                                            setProductIdToDelete(product._id)
+                                            setProductId(product._id)
                                             }
                                         }                                  
                                     >

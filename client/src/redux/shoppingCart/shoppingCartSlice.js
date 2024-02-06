@@ -21,10 +21,15 @@ const shoppingCartSlice = createSlice({
             state.cartItems = [...state.cartItems, item];
         }
         return updateCart(state);
-    }
+    },
+    removeFromCart:(state, action)=>{
+        state.cartItems=state.cartItems.filter((item)=> item._id!== action.payload);
+
+         return updateCart(state);
+    },
    }
 });
 
-export const { addToCart } = shoppingCartSlice.actions;
+export const { addToCart, removeFromCart } = shoppingCartSlice.actions;
 
 export default shoppingCartSlice.reducer;

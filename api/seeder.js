@@ -12,8 +12,8 @@ dotenv.config();
 
 console.log('from seeder: '+ process.env.MONGO)
 
-//connectDB();
-await mongoose.connect("mongodb+srv://agiraldomolina:P4ngFE3SgWUFrkI7@mern-burger-queen.tqgvfo7.mongodb.net/mern-burger-queen?retryWrites=true&w=majority")
+connectDB();
+
 
 // console.log(`MongoDB Connected: ${process.env.MONGO}`.green.inverse);
 

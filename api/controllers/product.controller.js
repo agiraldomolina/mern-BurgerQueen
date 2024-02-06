@@ -41,12 +41,13 @@ export const updateProduct = catchAsync(async (req, res, next) => {
                 image: req.body.image,
                 type: req.body.type,
                 description: req.body.description,
+                available: req.body.available,
             },
         }, {new: true}
     );
     res
     .status(200)
-    json(updatedProduct);
+    .json(updatedProduct);
 });
 
 // @description fetch all products
@@ -64,8 +65,6 @@ export const getProductById = catchAsync(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     res.json(product);
 })
-
-
 
 export const getProducts = catchAsync(async (req, res, next) => {
     //console.log('req.query from getProduts:' + JSON.stringify (req.query));
@@ -109,5 +108,5 @@ export const getProducts = catchAsync(async (req, res, next) => {
         products,
         totalProducts
     })
-    console.log(products);
-})
+    //console.log(products);
+});

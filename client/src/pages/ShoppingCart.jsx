@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {FaTrash} from  'react-icons/fa';
 import Message from '../components/Message';
 import {Button, Card, ListGroup, Table, TextInput} from 'flowbite-react'
-import { addToCart } from '../redux/shoppingCart/shoppingCartSlice';
+import { addToCart, removeFromCart } from '../redux/shoppingCart/shoppingCartSlice';
 
 export default function ShoppingCart() {
     const dispatch = useDispatch();
@@ -16,13 +16,16 @@ export default function ShoppingCart() {
     const addToCartHandler = (product, qty) => {
         dispatch(addToCart({...product, qty}));
       }
+    const removeCartHandler = (id) => {
+        dispatch(removeFromCart(id));
+      }
 
   return (
     <div className='flex flex-col :flex-mdrow mx-auto min-h-screen'>
         <div
             className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
         >
-            <h1 className="border-b text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h1 className="border-b text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3">
             Shopping Cart
             </h1>
             {
@@ -96,7 +99,7 @@ export default function ShoppingCart() {
                                         type='button'
                                         gradientDuoTone='pinkToOrange'
                                         outline
-                                        onClick={()=>{}}
+                                        onClick={()=>removeCartHandler(item._id)}
                                     >
                                         <FaTrash/>
                                     </Button>
