@@ -18,6 +18,7 @@ import UpdateProduct from './pages/UpdateProduct'
 import UpdateUser from './pages/UpdateUser'
 import CreateOrder from './pages/CreateOrder'
 import ProductDetails from './pages/ProductDetails'
+import ShoppingCart from './pages/ShoppingCart'
 
 export default function App() {
   return (
@@ -30,7 +31,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search/>} />
-        <Route path="/menu" element={<Menu/>} />
+        <Route path="/shopping-cart" element={<ShoppingCart/>} />
         <Route path="/product/:id" element={<ProductDetails/>} />
         <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard/>}/>

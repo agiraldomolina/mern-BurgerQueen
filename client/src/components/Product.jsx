@@ -1,5 +1,5 @@
 import {Button, Card, TextInput} from 'flowbite-react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/shoppingCart/shoppingCartSlice'
@@ -9,9 +9,11 @@ import { addToCart } from '../redux/shoppingCart/shoppingCartSlice'
 export default function Product( {product,showDescription, showButton, showQty} ) {
   const [qty, setQty] = useState(1)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const addToCartHandler = () => {
-    dispatch(addToCart({...product, qty}))
+    dispatch(addToCart({...product, qty}));
+    navigate('/shopping-cart')
   }
 
   return (
@@ -60,7 +62,7 @@ export default function Product( {product,showDescription, showButton, showQty} 
                 type='text'
                 id='qtyText'
                 value={qty}
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center', width: '40px'}}
               >
 
               </TextInput>
