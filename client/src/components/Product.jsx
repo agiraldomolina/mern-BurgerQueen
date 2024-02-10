@@ -24,9 +24,9 @@ export default function Product( {product,showDescription, showButton, showQty} 
       className="rounded-lg h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300" 
     />
     <Link to={`/product/${product._id}`}>
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h className="text-md font-semibold tracking-tight text-gray-900 dark:text-white">
           {product.name}
-        </h5>
+        </h>
       </Link>
       {showDescription && (
         <p>{product.description}</p>

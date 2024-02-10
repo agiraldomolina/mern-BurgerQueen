@@ -7,7 +7,36 @@ import { errorHandler } from '../utils/error.js';
 // @access Private
 export const addOrderItems = catchAsync(async(req,res,next)=>{
     if (!req.user.isAdmin && !req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
-    res.send('add order items')
+
+    console.log('req.body from addOrder: '  + JSON.stringify(req.body));
+
+    const {
+        table,
+        products,
+        itemsPrice,
+        totalPrice,
+    } = req.body;
+
+    if (products && products.length === 0) {
+      return next(errorHandler(400, 'Please add at least one item to order'));  
+    }else{
+        const order = new Order({
+            products :products.map((item)=>({
+                ...item,
+                product:item._id,
+                _id:undefined
+            })),
+            itemsPrice,
+            totalPrice,
+            table,
+            user: req.user._id
+        });
+        const createdOrder = await order.save();
+
+        res
+            .status(201)
+            .json(createdOrder);
+    };
 });
 
 // @description Get logged in user's orders
@@ -15,16 +44,36 @@ export const addOrderItems = catchAsync(async(req,res,next)=>{
 // @access Private/waiter
 export const getMyOrders = catchAsync(async(req,res,next)=>{
     if (!req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
-    res.send('get my orders')
+    
+    const orders = await Order.find({
+        user: req.user._id
     });
+
+    res
+      .status(200)
+      .json(orders);
+});
 
 // @description Get order by ID
 // @route GET /api/order/:id
 // @access Private/ & Admin
 export const getOrderById = catchAsync(async(req,res,next)=>{
     if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
-    res.send('get order by id')
-    });
+    
+    const order = await Order
+        .findById(req.params.id)
+        .populate('user', 'email');
+
+    if(order){
+        res
+            .status(200)
+            .json(order);
+    }else{
+        res
+          .status(404)
+        return next(errorHandler(404, 'Order not found'));
+    }
+});
 
 // @description Update order to cancelled
 // @route GET /api/order/:id/canceled

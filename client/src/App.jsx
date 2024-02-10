@@ -31,9 +31,9 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search/>} />
-        <Route path="/shopping-cart" element={<ShoppingCart/>} />
         <Route path="/product/:id" element={<ProductDetails/>} />
         <Route element={<PrivateRoute/>}>
+          <Route path="/shopping-cart" element={<ShoppingCart/>} />
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/products" element={<Products/>}/>
           <Route path="/orders" element={<Orders/>}/>

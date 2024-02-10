@@ -1,10 +1,15 @@
 import { Button, DropdownItem, Label, Select, TextInput } from 'flowbite-react'
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Product from '../components/Product'
+import { setTable } from '../redux/shoppingCart/shoppingCartSlice'
+import FormContainer from '../components/FormContainer';
 
 export default function CreateOrder() {
+  const dispatch =useDispatch()
+  const navigate = useNavigate()
   //const { currentUser } = useSelector(state => state.user)
   const [products, setProducts] = useState([])
   const [formData, setFormData] = useState({})
@@ -18,6 +23,10 @@ export default function CreateOrder() {
   //console.log(filteredProducts[0].available)
   
   console.log(products)
+
+  const addTableHandler=(table) => {
+    dispatch(setTable(table))
+  }
 
   const fetchProducts = async () => {
     try {
@@ -42,6 +51,10 @@ export default function CreateOrder() {
     } catch (error) {
       setFilteredProducts([]);
     }
+  };
+
+  const SeeOrderHandler =()=>{
+    navigate('/shopping-cart')
   }
    
   useEffect(() => {
@@ -51,26 +64,27 @@ export default function CreateOrder() {
 
   
   return (
-    <div
-      className='p-3 max-w-3xl mx-auto min-h-screen'
-    >
+    <FormContainer>
       <h1
         className='text-center font-semibold text-3xl my-7'
       >
         Create Order
       </h1>
       <form
-        className='flex flex-col gap-4'
+        className='flex flex-col gap-4  pt-4 border rounded-md border-gray-200 '
       >
-        <div className='mb-2 block'>
-          <Label value='Client'/>
-          <TextInput
-            type='text'
-            id='client'
-            placeholder='Client name'
-          />
-        </div>
-        <div className='flex-end'>
+        <div className='flex flex-col w-10/12 sm:w-1/2 gap-4 mx-auto'>
+          <Select
+            id='table'
+            onChange={(event)=>(addTableHandler(event.target.value))} 
+          >
+            <option value="">Table</option>
+            {[...Array(10)].map((_, index) => (
+              <option key={index} value={index + 1}>
+                {index + 1}
+              </option>
+            ))}
+          </Select>
           <Select
             id='type'
             onChange = {(event)=> setFormData({...formData, type: event.target.value})}
@@ -84,10 +98,7 @@ export default function CreateOrder() {
             <option value='dessert'>Desserts</option>       
           </Select>
         </div>
-        <div>
-          <h2>{formData.type}</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 m-6" >
           {showFilteredProducts && filteredProducts.map((product) => (
             <div key={product._id}>
               <Product 
@@ -100,20 +111,17 @@ export default function CreateOrder() {
             </div>
           ))}
         </div>
-        <div>
-          <Button>
-            Total Price
-          </Button>
-          <Button>
-            Clear Cart
-          </Button>
-        </div>
-        <div className='container_grid_shopping_cart'>
-
-        </div>
-
-      </form>
-      
-    </div>
+      </form>   
+      <div className='mt-3'>
+        <Button
+          gradientDuoTone='pinkToOrange'
+          outline
+          id='addToCart'
+          onClick={SeeOrderHandler}
+        >
+          See Order
+        </Button>
+      </div>
+    </FormContainer>
   )
 }

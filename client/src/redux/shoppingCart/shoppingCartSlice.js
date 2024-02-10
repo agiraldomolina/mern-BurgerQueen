@@ -10,6 +10,10 @@ const shoppingCartSlice = createSlice({
    name:'shoppingCart',
    initialState,
    reducers:{
+    setTable: (state, action) => {
+        state.table = action.payload;
+        return updateCart(state); 
+    },
     addToCart:(state, action)=>{
         const item = action.payload;
         const existItem = state.cartItems.find((el) => el._id === item._id);
@@ -24,12 +28,19 @@ const shoppingCartSlice = createSlice({
     },
     removeFromCart:(state, action)=>{
         state.cartItems=state.cartItems.filter((item)=> item._id!== action.payload);
-
          return updateCart(state);
     },
+    clearCartItems:(state, action)=>{
+        state.cartItems = [];
+        return updateCart(state);
+    }
    }
 });
 
-export const { addToCart, removeFromCart } = shoppingCartSlice.actions;
+export const { addToCart,
+     removeFromCart,
+     clearCartItems,
+     setTable
+     } = shoppingCartSlice.actions;
 
 export default shoppingCartSlice.reducer;

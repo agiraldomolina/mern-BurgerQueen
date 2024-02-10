@@ -5,7 +5,11 @@ import User from '../models/user.model.js';
 const productsOrderSchema = new mongoose.Schema(
   {
     qty: { type: Number, required: true },
-    product: { type: mongoose.Schema.ObjectId, ref: 'Product', required: true },
+    product: { 
+      type: mongoose.Schema.ObjectId, 
+      ref: 'Product', 
+      required: true 
+    },
   },
   { _id: false },
 );
@@ -15,16 +19,22 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   },
-  client: {
-    type: String,
-    required: [true, 'Please write a name!'],
+  table: {
+    type: Number,
+    required: [true, 'Please write a table!'],
   },
 
   products: 
     [productsOrderSchema]
   ,
+  totalPrice:{
+    type:Number,
+    required:true,
+    default:0.0,
+},
   status: {
     type: String,
+    default: 'pending',
     enum: ['pending', 'canceled', 'delivering', 'delivered'],
   },
   dataEntry: {

@@ -1,9 +1,9 @@
 export default function FormContainer({ children }) {
     return (
-      <div className="container mx-auto
-       min-h-screen mt-10">
+      <div className="p-3 mb-4 container mx-auto
+       min-h-screen mt-3">
         <div className="flex justify-center">
-          <div className="w-full md:w-1/2">
+          <div className="w-10/12  sm:w-1/2 md:w-10/12">
             {children}
           </div>
         </div>
