@@ -8,6 +8,7 @@ import { Button, FileInput, Spinner, TextInput, Textarea } from "flowbite-react"
 import { useEffect } from "react";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import FormContainer from "../components/FormContainer.jsx";
 
 
 
@@ -102,8 +103,8 @@ export default function CreateProduct() {
   }, [imagefile])
   
   return (
-    <main className="p-3 max-w-4xl mx-auto" >
-      <h1 className="text-3xl font-semibold text-center my-7b ">
+    <FormContainer >
+      <h1 className="text-3xl font-semibold text-center my-7 ">
         New Product
       </h1>
       <form 
@@ -206,6 +207,6 @@ export default function CreateProduct() {
           </Button>
         </div>
       </form>
-    </main>
+    </FormContainer>
   )
 }

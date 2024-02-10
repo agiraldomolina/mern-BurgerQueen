@@ -1,5 +1,5 @@
 import {Avatar, Button, Dropdown, Navbar, TextInput} from 'flowbite-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, Navigate } from 'react-router-dom'
 import burgerIcon from '../assets/images/burgerIcon.png'
 import {AiOutlineSearch} from'react-icons/ai'
 import {FaMoon, FaShoppingCart, FaSun} from'react-icons/fa'
@@ -108,19 +108,21 @@ export default function Header() {
           )}
         <Navbar.Toggle/>
       </div>
-      <div className="flex items-center">
-          <FaShoppingCart className="mr-2"/>Cart
-          {
-            cartItems.length > 0 && (
-              <Button
-                pill
-                className="ml-2"
-              >
-                {cartItems.reduce((total, item) => total + item.qty, 0)}
-              </Button>
-            )
-          }
-        </div>
+      <Link to='/shopping-cart'>
+        <div className="flex items-center hover:cursor-pointer">
+            <FaShoppingCart className="mr-2"/>Cart
+            {
+              cartItems.length > 0 && (
+                <Button
+                  pill
+                  className="ml-2"
+                >
+                  {cartItems.reduce((total, item) => total + item.qty, 0)}
+                </Button>
+              )
+            }
+          </div>
+      </Link>
       <Navbar.Collapse>
         <Navbar.Link activeclassname='active' active={path ==='/'} as='div'>
           <Link to='/' className='custon-link'>Home</Link>

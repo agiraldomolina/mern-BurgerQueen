@@ -17,11 +17,6 @@ export default function CreateOrder() {
   console.log(filteredProducts[0])
   //console.log(filteredProducts[0].available)
   
-
-  // const subMenuComponent=()=>{
-  //   const [showSubMenu, setShowSubMenu] = useState(false)
-  // }
-
   console.log(products)
 
   const fetchProducts = async () => {

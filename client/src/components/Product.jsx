@@ -13,7 +13,6 @@ export default function Product( {product,showDescription, showButton, showQty} 
 
   const addToCartHandler = () => {
     dispatch(addToCart({...product, qty}));
-    navigate('/shopping-cart')
   }
 
   return (

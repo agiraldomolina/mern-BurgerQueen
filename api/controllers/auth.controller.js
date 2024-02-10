@@ -7,18 +7,20 @@ import jwt from 'jsonwebtoken';
 export const signup = catchAsync(async (req, res, next) => {
     //console.log(req.body);
     const {role, email, password} = req.body;
+
+    const userExists = await User.findOne({email});
+    if (userExists) {
+        return next(errorHandler(400, 'User already exists'));
+    };
+
     if (!role ||!email ||!password || role==="" || email==="" || password==="" ) {
-        console.log("hi from error");
         return next(errorHandler(400, 'Please fill all the fields'));
     }
-    // hash password
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword =  bcrypt.hashSync(password, salt);
 
     const newUser = new User({
         role,
         email,
-        password: hashedPassword,
+        password,
     });
      await newUser.save();
      res.json({mesage: 'User created successfully'});
@@ -63,7 +65,7 @@ export const signin = catchAsync(async (req, res, next) => {
     //console.log('user from db:'+ JSON.stringify(user) );
 
     // check if user exist and if password is correct
-    if (!user || !await user.correctPassword(password,user.password)) return next(errorHandler(400, 'Invalid email or password'));   
+    if (!user || !await user.correctPassword(password)) return next(errorHandler(400, 'Invalid email or password'));   
     //create a token
     createSendToken(user, 201, res);
 })
@@ -91,7 +93,14 @@ export const googleSignin = catchAsync(async (req, res, next) => {
 });
 
 export const signout = catchAsync(async (req, res, next) => {
-    res.clearCookie('access_token');
-    res.status(200).json( 'User signed out successfully');
+    res.cookie('access_token', '', {
+        httpOnly: true,
+        expires: new Date(0),
+    });
+    res
+    .status(200)
+    .json({message: 'Logged out successfully'})
+    // res.clearCookie('access_token');
+    // res.status(200).json( 'User signed out successfully');
 });
 

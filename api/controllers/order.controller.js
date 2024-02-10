@@ -2,49 +2,66 @@ import Order from '../models/order.model.js';
 import {catchAsync} from '../utils/catchAsync.js';
 import { errorHandler } from '../utils/error.js';
 
-export const create= catchAsync(async (req, res,next) => {
-    console.log(req.user.isWaiter);
-    console.log(req.user.isAdmin);
-    console.log(req.user._id);
-    if (!req.user.isWaiter && !req.user.isAdmin) return next( errorHandler(401, 'Unauthorized'));
-    if (!req.body.user) req.body.user = req.user._id;
-    const order = await Order.create(req.body);
-    res
-    .status(201)
-    .json(order)
-})
+// @description create a new order
+// @route POST /api/order
+// @access Private
+export const addOrderItems = catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin && !req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('add order items')
+});
 
-export const getOrders = catchAsync(async (req, res, next) => {
-    if (!req.user.isWaiter && !req.user.isChef && !req.user.isAdmin) return next( errorHandler(401, 'Unauthorized'));
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 10;
-    const sortBy = req.query.sortBy || 'createdAt';
-    const sortDirection = req.query.order === 'asc'? 'asc' : 'desc';
+// @description Get logged in user's orders
+// @route GET /api/order/myorders
+// @access Private/waiter
+export const getMyOrders = catchAsync(async(req,res,next)=>{
+    if (!req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('get my orders')
+    });
 
-    //const searchTermRegex = new RegExp(req.query.searchTerm, 'i');
+// @description Get order by ID
+// @route GET /api/order/:id
+// @access Private/ & Admin
+export const getOrderById = catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('get order by id')
+    });
 
-    const orders = await Order.find({
-        ...(req.query.orderId && {_id: req.query.orderId}),
-        ...(req.query.client && {client: req.query.client}),
-        ...(req.query.user && {user: req.query.user}),
-        ...(req.query.status && {status: req.query.status}),
-        ...(req.query.products && {'products.product': req.query.products}),
-    })
-    .sort([[sortBy, sortDirection]])
-    .skip(startIndex)
-    .limit(limit);
+// @description Update order to cancelled
+// @route GET /api/order/:id/canceled
+// @access Private/Admin
+export const updateOrderToCancelled = catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('update order to canceled')
+    });
 
-    const totalOrders = await Order.countDocuments();
+// @description Update order to delivered
+// @route GET /api/order/:id/delivered
+// @access Private/admin &chef
+export const updateOrderToDelivered= catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin && !req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('update order to delivered')
+    });
 
-    res
-    .status(200)
-    .json({
-        orders,
-        totalOrders
-    })
-    
-//     const orders = await Order.find();
-//     res
-//   .status(200)
-//   .json(orders)
-})
+// @description Update order to delivering
+// @route PUT /api/orders/:id/delivering
+// @access Private/admin &chef
+export const updateOrderToDelivering= catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin && !req.user.isChef) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('update order to delivering')
+    });
+
+// @description Get all orders
+// @route GET /api/order
+// @access Private/Admin
+export const getOrders= catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('Get all orders')
+    });
+
+// @description Delete  order by ID
+// @route DELETE /api/order/:id
+// @access Private/Admin
+export const deleteOrderById= catchAsync(async(req,res,next)=>{
+    if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    res.send('Deleted order by ID')
+    });

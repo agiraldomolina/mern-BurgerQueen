@@ -57,7 +57,7 @@ export default function DashProducts() {
             }
         }
         if (currentUser.isAdmin) fetchProducts(); 
-    }, [currentUser.isAdmin])
+    }, [products, currentUser.isAdmin])
 
     const handleShowMore = async() => {
         const startIndex= products.length
@@ -73,7 +73,7 @@ export default function DashProducts() {
         }
     }
 
-    const handleDeleteProduct = async()=>{
+    const handleDeleteProduct = async(productId)=>{
         setShowModal(false)
         try {
             const response = await fetch(`/api/product/delete/${productIdToDelete}`, {
@@ -164,8 +164,8 @@ export default function DashProducts() {
                                     <span
                                         className="text-red-500 hover:underline cursor-pointer"
                                         onClick={()=>{
-                                            setShowModal(true)
-                                            setProductId(product._id)
+                                            setShowModal(true);
+                                            setProductIdToDelete(product._id)
                                             }
                                         }                                  
                                     >

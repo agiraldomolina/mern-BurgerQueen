@@ -1,7 +1,7 @@
 import  { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import burgerIcon from '../assets/images/burgerIcon.png'
-import {HiMail} from'react-icons/hi'
+import {HiMail, HiX} from'react-icons/hi'
 import { Alert, Button, Label, Select, Spinner, TextInput } from 'flowbite-react'
 import {FaEye, FaEyeSlash} from'react-icons/fa'
 import { useDispatch, useSelector} from 'react-redux'
@@ -11,6 +11,7 @@ import {
   signInFailure
     } from '../redux/user/userSlice'
 import Oauth from '../components/Oauth'
+import { Toast } from 'flowbite-react'
 //import hatChef from '../assets/images/hatChef.png'
 
 export default function SignIn() {
@@ -137,9 +138,14 @@ export default function SignIn() {
           </div>
           {
             errorMessage && (
-              <Alert className='mt-5' color='failure'>
-                {errorMessage}
-              </Alert>
+              <Toast className='mt-5 flex mx-auto'>
+                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+                  <HiX className="h-5 w-5" />
+                </div>
+                <div className="ml-3 text-sm font-normal">{errorMessage}</div>
+                <Toast.Toggle />
+              </Toast>
+
             )
           }
         </div>
