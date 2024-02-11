@@ -63,6 +63,8 @@ export default function ShoppingCart() {
              setPlaceOrderError(null)
              setPlaceOrderSuccess(true)
              dispatch(clearCartItems())
+             navigate(`/order/${data._id}`)
+             
          }
         } catch (error) {
             setPlaceOrderSuccess(false)

@@ -11,6 +11,7 @@ import axios from "axios"
 export default function DashProducts() {
     const {currentUser} = useSelector(state => state.user)
     const [products, setProducts] = useState([])
+    const [productToEdit, setProductToEdit] = useState('')
     const [productIdToDelete, setProductIdToDelete] = useState('')
     const [productId, setProductId] = useState('')
     const [showMore, setShowMore] = useState(true)
@@ -23,7 +24,9 @@ export default function DashProducts() {
         console.log(productId)
        try {
         const currentProductResponse = await fetch(`/api/product/${productId}`);
+        
         const currentProductData = await currentProductResponse.json();
+        setProductToEdit(currentProductData)
 
         const newAvailableValue = currentProductData.available === true ? false : true;
 
@@ -37,6 +40,7 @@ export default function DashProducts() {
             })
         });
         const data = await response.json();
+        if(data.succes===!false) fetchProducts();
        } catch (error) {
         console.log(error)
        } 
@@ -56,8 +60,8 @@ export default function DashProducts() {
                 setProducts([]);
             }
         }
-        if (currentUser.isAdmin) fetchProducts(); 
-    }, [products, currentUser.isAdmin])
+        if(currentUser.isAdmin) fetchProducts(); 
+    }, [currentUser._id, productToEdit])
 
     const handleShowMore = async() => {
         const startIndex= products.length

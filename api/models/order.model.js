@@ -2,30 +2,31 @@ import mongoose from 'mongoose';
 import Product from '../models/product.model.js';
 import User from '../models/user.model.js';
 
-const productsOrderSchema = new mongoose.Schema(
-  {
-    qty: { type: Number, required: true },
-    product: { 
-      type: mongoose.Schema.ObjectId, 
-      ref: 'Product', 
-      required: true 
-    },
-  },
-  { _id: false },
-);
-
 const orderSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
-  },
+  user:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"User",
+    required:true
+},
   table: {
     type: Number,
     required: [true, 'Please write a table!'],
   },
 
-  products: 
-    [productsOrderSchema]
+  products: [
+    {
+      name:{type:String,required:true},
+      qty:{type:Number,required:true},
+      price:{type:Number,required:true},
+      image:{type:String,required:true},
+      product:{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"Product",
+          required:true
+      },
+  }
+  ]
+    
   ,
   totalPrice:{
     type:Number,
@@ -50,21 +51,21 @@ const orderSchema = new mongoose.Schema({
 );
 
 // Middleware that executes populate on each query
-orderSchema.pre(/^find/, function (next) {
-  this .populate({
-    path: 'user',
-    select: '_id role email'
-  }).
-  populate({
-    path: 'products',
-    populate: {
-      path: 'product',
-      model: Product,
-      select: '-__v -_id -image -type'
-    }
-  });
-  next();
-});
+// orderSchema.pre(/^find/, function (next) {
+//   this .populate({
+//     path: 'user',
+//     model: User,
+//    })
+  // .populate({
+  //   path: 'products',
+  //   populate: {
+  //     path: 'product',
+  //     model: Product,
+  //     select: '-__v -_id -image -type'
+  //   }
+  // });
+//   next();
+// });
 
 orderSchema.pre('updateOne', async function (next) {
 // Only run when status is modified

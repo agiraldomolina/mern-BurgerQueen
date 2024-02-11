@@ -58,11 +58,14 @@ export const getMyOrders = catchAsync(async(req,res,next)=>{
 // @route GET /api/order/:id
 // @access Private/ & Admin
 export const getOrderById = catchAsync(async(req,res,next)=>{
-    if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    //check if user is logged in
+
+    if (!req.user) return next(errorHandler(403, 'You are not authorized to perform this action'));
     
     const order = await Order
         .findById(req.params.id)
-        .populate('user', 'email');
+        .populate('user', '_id email')
+    
 
     if(order){
         res

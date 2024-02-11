@@ -11,7 +11,7 @@ import  Footer  from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
-import Orders from './pages/Orders'
+import Orders from './pages/Order'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import CreateProduct from './pages/CreateProduct'
 import UpdateProduct from './pages/UpdateProduct'
@@ -19,6 +19,7 @@ import UpdateUser from './pages/UpdateUser'
 import CreateOrder from './pages/CreateOrder'
 import ProductDetails from './pages/ProductDetails'
 import ShoppingCart from './pages/ShoppingCart'
+import Order from './pages/Order'
 
 export default function App() {
   return (
@@ -36,8 +37,9 @@ export default function App() {
           <Route path="/shopping-cart" element={<ShoppingCart/>} />
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/products" element={<Products/>}/>
-          <Route path="/orders" element={<Orders/>}/>
+          <Route path="/order/:id" element={<Order/>}/>
           <Route path="/create-order" element={<CreateOrder/>}/>
+          
         </Route>
         <Route element={<OnlyAdminPrivateRoute/>}>
           <Route path="/create-product" element={<CreateProduct/>}/>
