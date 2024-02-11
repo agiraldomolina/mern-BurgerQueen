@@ -2,7 +2,8 @@ import {Button, Card, TextInput} from 'flowbite-react'
 import {Link, useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addToCart } from '../redux/shoppingCart/shoppingCartSlice'
+import { addToCart } from '../redux/shoppingCart/shoppingCartSlice';
+import {toast} from 'react-toastify';
 
 
 
@@ -13,10 +14,11 @@ export default function Product( {product,showDescription, showButton, showQty} 
 
   const addToCartHandler = () => {
     dispatch(addToCart({...product, qty}));
+    toast.success('Product added to cart');
   }
 
   return (
-    <Card 
+    <Card
       className='my-3 p-3 rounded-lg'
     >
     <img 

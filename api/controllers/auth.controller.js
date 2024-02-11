@@ -29,6 +29,7 @@ export const signup = catchAsync(async (req, res, next) => {
 const createSendToken =(user, statusCode, res) => {
     const token = jwt.sign({
         _id: user._id,
+        email: user.email,
         isAdmin: user.isAdmin,
         isWaiter: user.role === 'waiter',
         isChef: user.role === 'chef',      

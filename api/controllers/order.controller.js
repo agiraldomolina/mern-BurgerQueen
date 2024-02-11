@@ -1,6 +1,7 @@
 import Order from '../models/order.model.js';
 import {catchAsync} from '../utils/catchAsync.js';
 import { errorHandler } from '../utils/error.js';
+import User from '../models/user.model.js';
 
 // @description create a new order
 // @route POST /api/order
@@ -8,7 +9,10 @@ import { errorHandler } from '../utils/error.js';
 export const addOrderItems = catchAsync(async(req,res,next)=>{
     if (!req.user.isAdmin && !req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
 
-    console.log('req.body from addOrder: '  + JSON.stringify(req.body));
+    //console.log('req.body from addOrder: '  + JSON.stringify(req.body));
+    console.log ('email from addOrder: ' + req.user.email);
+    console.log ('req user from addOrder: ' + JSON.stringify(req.user));
+    
 
     const {
         table,
@@ -29,7 +33,11 @@ export const addOrderItems = catchAsync(async(req,res,next)=>{
             itemsPrice,
             totalPrice,
             table,
-            user: req.user._id
+            user: {
+                _id: req.user._id,
+                email: req.user.email,
+
+            }
         });
         const createdOrder = await order.save();
 
@@ -43,11 +51,11 @@ export const addOrderItems = catchAsync(async(req,res,next)=>{
 // @route GET /api/order/myorders
 // @access Private/waiter
 export const getMyOrders = catchAsync(async(req,res,next)=>{
-    if (!req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    // if (!req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    // console.log('req.user from getMyOrders: ' + JSON.stringify(req.user._id));
     
-    const orders = await Order.find({
-        user: req.user._id
-    });
+    const orders = await Order
+    .find({"user._id": req.user._id});
 
     res
       .status(200)
@@ -64,7 +72,6 @@ export const getOrderById = catchAsync(async(req,res,next)=>{
     
     const order = await Order
         .findById(req.params.id)
-        .populate('user', '_id email')
     
 
     if(order){
@@ -106,9 +113,17 @@ export const updateOrderToDelivering= catchAsync(async(req,res,next)=>{
 // @route GET /api/order
 // @access Private/Admin
 export const getOrders= catchAsync(async(req,res,next)=>{
-    if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
-    res.send('Get all orders')
-    });
+    // if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    // get all orders
+    const orders = await Order
+     .find()
+     .populate('user', '_id email')
+        
+     
+    res
+        .status(200)
+        .json(orders);   
+});
 
 // @description Delete  order by ID
 // @route DELETE /api/order/:id

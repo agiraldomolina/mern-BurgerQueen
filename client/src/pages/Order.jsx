@@ -10,6 +10,7 @@ export default function Order() {
   const { id: orderId } = useParams();
   const [order, setOrder] = useState({});
   const [loading, setLoading] = useState(true);
+  console.log(JSON.stringify(order))
   console.log(order)
 
   const fetchOrder = async () => {
@@ -36,8 +37,9 @@ export default function Order() {
   return loading? <Loader /> : (
     <>
       <FormContainer>
+        <div className='w-80 mx-auto' >
         <h1>Order &nbsp;{order._id}</h1>
-          <Table >
+          <Table>
             <Table.Body className='divide-y'>
               <Table.Row>
                 <p className='p-3'>
@@ -65,10 +67,10 @@ export default function Order() {
                       <Table.Body key={index}>
                         <Table.Row>
                           <Table.Cell>
-                            {item.name}
+                            {item.product.name}
                           </Table.Cell>
                           <Table.Cell>
-                            {item.qty}&nbsp;x&nbsp;${item.price}=&nbsp; ${item.qty*item.price}
+                            {item.qty}&nbsp;x&nbsp;${item.product.price}=&nbsp; ${item.qty*item.product.price}
                           </Table.Cell>
                         </Table.Row>
                       </Table.Body>
@@ -84,6 +86,8 @@ export default function Order() {
               </Table.Row>
             </Table.Body>
           </Table>
+        </div>
+
       </FormContainer>
     </>
   )
