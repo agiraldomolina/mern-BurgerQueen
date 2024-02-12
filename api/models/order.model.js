@@ -44,7 +44,7 @@ const orderSchema = new mongoose.Schema({
   status: {
     type: String,
     default: 'pending',
-    enum: ['pending', 'canceled', 'delivering', 'delivered'],
+    enum: ['pending', 'cancelled', 'preparing', 'prepared','delivered'],
   },
   dataEntry: {
     type: Date,
@@ -65,14 +65,10 @@ orderSchema.pre(/^find/, function (next) {
     populate: {
       path: 'product',
       model: Product,
-      select: '-__v -_id -image -type'
     }
   });
   next();
 });
-
-
-orderSchema.plugin(mongooseAutopopulate);
 
 orderSchema.pre('updateOne', async function (next) {
 // Only run when status is modified

@@ -92,7 +92,7 @@ export default function Header() {
                 <span className="block truncate text-sm font-medium">{currentUser.role}</span>
               </Dropdown.Header>
                 <Link to={'/dashboard?tab=profile'}>
-                  <Dropdown.Item>Profile</Dropdown.Item>
+                  <Dropdown.Item>Tools</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>

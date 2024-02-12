@@ -3,7 +3,7 @@ export default function FormContainer({ children }) {
       <div className="p-3 mb-4 container mx-auto
        min-h-screen mt-3">
         <div className="flex justify-center">
-          <div className="w-10/12  sm:w-1/2 md:w-10/12">
+          <div className="w-10/12  md:w-10/12">
             {children}
           </div>
         </div>

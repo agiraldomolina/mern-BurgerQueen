@@ -2,7 +2,7 @@ import {Sidebar} from 'flowbite-react'
 import {HiOutlineArrowSmRight, HiOutlineUserGroup, HiUser} from 'react-icons/hi'
 import {FaGulp, FaHandHoldingMedical, FaRegListAlt } from'react-icons/fa'
 import { FiEdit, FiLogOut } from "react-icons/fi";
-import Dropdown from 'react-multilevel-dropdown';
+import { FaUsers } from "react-icons/fa6";
 
 import {useSelector, useDispatch} from'react-redux'
 import {
@@ -85,7 +85,7 @@ export default function DashSidebar() {
                 }
                 <Link to="/dashboard?tab=users">
                     <Sidebar.Item
-                        icon ={HiOutlineUserGroup}
+                        icon ={FaUsers}
                         as="div"
                     >
                         Users

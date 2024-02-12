@@ -97,9 +97,57 @@ export const updateOrderToCancelled = catchAsync(async(req,res,next)=>{
 // @route GET /api/order/:id/delivered
 // @access Private/admin &chef
 export const updateOrderToDelivered= catchAsync(async(req,res,next)=>{
-    if (!req.user.isAdmin && !req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
-    res.send('update order to delivered')
-    });
+    if (!req.user.isAdmin && !req.user.chef) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    console.log('orderId: ' + req.params.orderId);
+
+    const order = await Order.findById(req.params.id)
+    
+    console.log('order from updateToDelivered:'+ JSON.stringify(order));
+
+    if (order) {
+        order.status = 'delivered';
+        order.dateProcessed = Date.now();
+        const updatedOrder = await order.save();
+
+        console.log('updatedOrder from updateToDelivered ok')
+
+        res
+          .status(200)
+          .json(updatedOrder);
+    }else{
+        res.status(404)
+        return next(errorHandler(404, 'Order not found'));
+    }
+    
+});
+
+export const updateStatus = catchAsync(async (req, res, next) => {
+    if (!req.user) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    console.log('orderId from updateStatus: ' + req.params.id);
+
+    const order = await Order.findById(req.params.id)
+    const errorMessage = `You are not authorized to upadte status to ${req.body.status}`;
+
+    if (!req.user.isAdmin && req.body.status === 'cancelled') return next(errorHandler(403, errorMessage));
+
+    if (!req.user.isAdmin && !req.user.isChef && (req.body.status === 'preparing' || req.body.status === 'prepared')) return next(errorHandler(403, errorMessage));
+
+    if(!req.user.isAdmin && !req.user.isWaiter && req.body.status === 'delivered') return next(errorHandler(403, errorMessage))
+
+    if (order){
+        order.status = req.body.status || order.status;
+        order.status !== 'delivered'? order.dateProcessed ='': order.dateProcessed = Date.now();
+
+        const updatedOrder = await order.save();
+
+        res
+          .status(200)
+          .json(updatedOrder);
+    }else{
+        res.status(404)
+        return next(errorHandler(404, `Cannot update order status to ${req.body.status}`));
+    }
+});
 
 // @description Update order to delivering
 // @route PUT /api/orders/:id/delivering
@@ -116,9 +164,7 @@ export const getOrders= catchAsync(async(req,res,next)=>{
     // if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
     // get all orders
     const orders = await Order
-     .find()
-     .populate('user', '_id email')
-        
+     .find()        
      
     res
         .status(200)
@@ -131,4 +177,4 @@ export const getOrders= catchAsync(async(req,res,next)=>{
 export const deleteOrderById= catchAsync(async(req,res,next)=>{
     if (!req.user.isAdmin) return next(errorHandler(403, 'You are not authorized to perform this action'));
     res.send('Deleted order by ID')
-    });
+});

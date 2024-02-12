@@ -4,6 +4,7 @@ import { addOrderItems,
 getMyOrders,
 getOrderById,
 getOrders,
+updateStatus,
 updateOrderToCancelled,
 updateOrderToDelivered,
 updateOrderToDelivering,
@@ -17,8 +18,9 @@ router.get('/', verifyToken, getOrders)
 router.delete('/:id', verifyToken, deleteOrderById);
 router.get('/myorders', verifyToken, getMyOrders);
 router.get('/:id', verifyToken, getOrderById);
+router.put('/:id/update-status', verifyToken, updateStatus);
 router.put('/:id/cancel', verifyToken, updateOrderToCancelled);
-router.put('/:orderId/delivered', verifyToken, updateOrderToDelivered);
-router.put('/:orderId/delivering', verifyToken, updateOrderToDelivering);
+router.put('/:id/delivered', verifyToken, updateOrderToDelivered);
+router.put('/:id/delivering', verifyToken, updateOrderToDelivering);
 
 export default router;
