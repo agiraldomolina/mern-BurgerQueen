@@ -25,32 +25,31 @@ import Order from './pages/Order'
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/search" element={<Search/>} />
-        <Route path="/product/:id" element={<ProductDetails/>} />
-        <Route element={<PrivateRoute/>}>
-          <Route path="/shopping-cart" element={<ShoppingCart/>} />
-          <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/products" element={<Products/>}/>
-          <Route path="/order/:id" element={<Order/>}/>
-          <Route path="/create-order" element={<CreateOrder/>}/>
-          
-        </Route>
-        <Route element={<OnlyAdminPrivateRoute/>}>
-          <Route path="/create-product" element={<CreateProduct/>}/>
-          <Route path="/update-product/:productId" element={<UpdateProduct/>}/>
-          <Route path="/update-user/:userId" element={<UpdateUser/>}/>
-        </Route>
-      </Routes>
-      <Footer/>
-      <ToastContainer position="top-center" />
-    </BrowserRouter>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/search" element={<Search/>} />
+          <Route path="/product/:id" element={<ProductDetails/>} />
+          <Route element={<PrivateRoute/>}>
+            <Route path="/shopping-cart" element={<ShoppingCart/>} />
+            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/products" element={<Products/>}/>
+            <Route path="/order/:id" element={<Order/>}/>
+            <Route path="/create-order" element={<CreateOrder/>}/>       
+          </Route>
+          <Route element={<OnlyAdminPrivateRoute/>}>
+            <Route path="/create-product" element={<CreateProduct/>}/>
+            <Route path="/update-product/:productId" element={<UpdateProduct/>}/>
+            <Route path="/update-user/:userId" element={<UpdateUser/>}/>
+          </Route>
+        </Routes>
+        <ToastContainer position="top-center" />
+        <Footer/>
+      </BrowserRouter>
   )
 }

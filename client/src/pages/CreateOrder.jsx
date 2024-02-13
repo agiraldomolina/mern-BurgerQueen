@@ -87,9 +87,10 @@ export default function CreateOrder() {
           </Select>
           <Select
             id='type'
+            defaultValue='none'
             onChange = {(event)=> setFormData({...formData, type: event.target.value})}
           >
-            <option selected>Choose a Type</option>
+            <option value='none'>Choose a Type</option>
             <option value='breakfast'>Breakfast</option>
             <option value='lunch'>Lunch</option>
             <option value='dinner'>Dinner</option>

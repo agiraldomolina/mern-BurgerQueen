@@ -72,7 +72,7 @@ export default function DashUsers() {
     >
         {users.length > 0?(
             <>
-                <Table hoverable className="shadow-md">
+                <Table striped hoverable className="shadow-md">
                     <Table.Head>
                         <Table.HeadCell>Updated</Table.HeadCell>
                         <Table.HeadCell>Imagen</Table.HeadCell>

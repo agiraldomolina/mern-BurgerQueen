@@ -26,9 +26,9 @@ export default function Product( {product,showDescription, showButton, showQty} 
       className="rounded-lg h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300" 
     />
     <Link to={`/product/${product._id}`}>
-        <h className="text-md font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white">
           {product.name}
-        </h>
+        </h1>
       </Link>
       {showDescription && (
         <p>{product.description}</p>
@@ -59,14 +59,21 @@ export default function Product( {product,showDescription, showButton, showQty} 
               >
                 -
               </Button>
-              <TextInput
+              <div
+                  id='qtyText'
+                  className="flex items-center justify-center rounded-lg border border-gray-300"
+                  style={{ width: '40px', height: '40px' }}
+              >
+                {qty}   
+              </div>
+              {/* <TextInput
                 type='text'
                 id='qtyText'
                 value={qty}
                 style={{ textAlign: 'center', width: '40px'}}
               >
 
-              </TextInput>
+              </TextInput> */}
               <Button 
                 gradientDuoTone='pinkToOrange'
                 id='upQty'

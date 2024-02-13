@@ -93,7 +93,7 @@ export default function Order() {
                     <Table.Cell>{item.product.name}</Table.Cell>
                     <Table.Cell>${item.product.price}</Table.Cell>
                     <Table.Cell>{item.qty}</Table.Cell>
-                    <Table.Cell>${item.qty*item.product.price}</Table.Cell>
+                    <Table.Cell>${(item.qty*item.product.price).toFixed(2)}</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

@@ -5,7 +5,7 @@ import burgerIcon from '../assets/images/burgerIcon.png';
 
 export default function FooterComponent() {
   return (
-    <Footer container className='border border-t-2 border-teal-500 py-2'>
+    <Footer container className='border border-t-2 border-teal-500 pt-2'>
       <div className="flex flex-col w-full sm:justify-between sm:grid sm:grid-cols-2">
         {/* div right side */}
         <div className='flex flex-col justify-start sm:items-start'>

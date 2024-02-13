@@ -1,4 +1,5 @@
 import {Link, json, useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import {FaTrash} from  'react-icons/fa';
@@ -23,10 +24,12 @@ export default function ShoppingCart() {
 
     const addToCartHandler = (product, qty) => {
         dispatch(addToCart({...product, qty}));
-      }
+        
+    }
+
     const removeCartHandler = (id) => {
         dispatch(removeFromCart(id));
-      }
+    }
 
     const clearOrderHandler =()=>{
         setShowModal(false)
@@ -72,8 +75,10 @@ export default function ShoppingCart() {
         }
      }
 
+     useEffect(() => {}, [cartItems.qty]);
+
   return (
-    <div className='flex flex-col :flex-mdrow mx-auto min-h-screen'>
+    <div className='flex flex-col :flex-md-row mx-auto min-h-screen'>
         <div
             className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
         >
@@ -127,13 +132,13 @@ export default function ShoppingCart() {
                                             >
                                                 -
                                             </Button>
-                                            <TextInput
+                                            <div
                                                 id='qtyText'
-                                                style={{ textAlign: 'center',width: '40px' }}
-                                                value={item.qty}
+                                                className="flex items-center justify-center rounded-lg border border-gray-300"
+                                                style={{ width: '40px', height: '40px' }}
                                             >
-                                                
-                                            </TextInput>
+                                             {item.qty}   
+                                            </div>
                                             <Button 
                                                 gradientDuoTone='pinkToOrange'
                                                 id='upQty'
@@ -145,7 +150,7 @@ export default function ShoppingCart() {
                                         </div>
                                     </>
                                 </Table.Cell>
-                                <Table.Cell style={{ width: '10%' }}>
+                                <Table.Cell  as='div' style={{ width: '10%' }}>
                                     <Button
                                         className='btn-block'
                                         type='button'
@@ -173,9 +178,10 @@ export default function ShoppingCart() {
                         </h2>
                         ${cartItems.reduce((acc,item)=>(acc+item.qty*item.price),0).toFixed(2)}
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <li className='py-2'>
                         <div className='flex flex-row gap-2'>
                             <Button
+                                as='div'
                                 type='button'
                                 gradientDuoTone='pinkToOrange'
                                 outline
@@ -196,7 +202,7 @@ export default function ShoppingCart() {
                                 Clear Order
                             </Button>
                         </div>
-                    </ListGroup.Item>
+                    </li>
                 </ListGroup>
             </Card>
         </div>
