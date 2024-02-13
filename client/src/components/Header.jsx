@@ -40,7 +40,7 @@ export default function Header() {
   return (
     //div>Header</div>
     <Navbar className='border-b-2 bg-rgba(243, 229, 171, 1)'>
-       <Link to='/' className='flex text-sm sm:text-xl font-semibold dark:text-white'>
+       <Link to='/menu' className='flex text-sm sm:text-xl font-semibold dark:text-white'>
         <span className='flex items-end'>
           <img src={burgerIcon} alt='burger icon' className='h-10 w-10' />
           <span>BurgerQueen</span>

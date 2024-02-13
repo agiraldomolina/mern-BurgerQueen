@@ -1,4 +1,4 @@
-import {Link, json, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
@@ -21,6 +21,7 @@ export default function ShoppingCart() {
 
     const cart = useSelector((state) => state.shoppingCart);
     const {cartItems} = cart;
+    console.log(cartItems.length)
 
     const addToCartHandler = (product, qty) => {
         dispatch(addToCart({...product, qty}));
@@ -181,7 +182,6 @@ export default function ShoppingCart() {
                     <li className='py-2'>
                         <div className='flex flex-row gap-2'>
                             <Button
-                                as='div'
                                 type='button'
                                 gradientDuoTone='pinkToOrange'
                                 outline

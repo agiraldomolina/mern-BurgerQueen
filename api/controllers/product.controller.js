@@ -30,6 +30,7 @@ export const deleteProduct= catchAsync(async (req, res, next) => {
 });
 
 export const updateProduct = catchAsync(async (req, res, next) => {
+    console.log('is admin: ', req.user.isAdmin)
     if (!req.user.isAdmin) return next(new AppError('You are not authorized to update products', 401));
 
     const updatedProduct = await Product.findByIdAndUpdate(
