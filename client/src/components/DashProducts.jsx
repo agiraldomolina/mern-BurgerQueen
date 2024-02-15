@@ -2,9 +2,10 @@ import { Button, Modal, Table } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link, useParams } from "react-router-dom"
-import {HiCheckCircle, HiOutlineExclamationCircle, HiX} from "react-icons/hi"
+import { HiOutlineExclamationCircle, HiX} from "react-icons/hi"
 import {IoIosCheckboxOutline,  } from "react-icons/io"
-import {AiOutlineCloseSquare } from "react-icons/ai"
+import {AiOutlineCloseSquare } from "react-icons/ai";
+import Loader from "../components/Loader";
 import axios from "axios"
 
 
@@ -16,6 +17,7 @@ export default function DashProducts() {
     const [productId, setProductId] = useState('')
     const [showMore, setShowMore] = useState(true)
     const [showModal, setShowModal] = useState(false)
+    const [loading, setLoading] = useState(true)
     
 
     console.log(products)
@@ -23,6 +25,7 @@ export default function DashProducts() {
     const handleToggleAvailable=async(productId)=>{
         console.log(productId)
        try {
+        setLoading(true)
         const currentProductResponse = await fetch(`/api/product/${productId}`);
         
         const currentProductData = await currentProductResponse.json();
@@ -40,8 +43,10 @@ export default function DashProducts() {
             })
         });
         const data = await response.json();
-        if(data.succes===!false) fetchProducts();
+        setLoading(false)
+        if(data.succes===!false) setLoading(false);
        } catch (error) {
+        setLoading(false)
         console.log(error)
        } 
     }
@@ -49,15 +54,18 @@ export default function DashProducts() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                setLoading(true)
                 const response = await fetch('/api/product');
                 const data = await response.json();
                 if (response.ok) {
                     setProducts(data.products);
+                    setLoading(false);
                     if (data.products.length < 10) setShowMore(false)
                 }
                 return data;
             } catch (error) {
                 setProducts([]);
+                setLoading(false);
             }
         }
         if(currentUser.isAdmin) fetchProducts(); 
@@ -196,6 +204,7 @@ export default function DashProducts() {
         ):(
             <p>There are no products</p>
         )}
+        {loading && <Loader />}
         <Modal
             show={showModal}
             onClose={() => setShowModal(false)}

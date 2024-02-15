@@ -79,6 +79,8 @@ export const getProducts = catchAsync(async (req, res, next) => {
         image: 1,
         type: 1,
         description: 1,
+        rating: 1,
+        numReviews: 1,
         available: 1,
         slug: 1,
         dateEntry: 1,

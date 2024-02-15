@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <>
-    <div className="h-56 sm:h-[28rem] lg:h-[30rem]" >
+    <div className="h-56 sm:h-[28rem] lg:h-[32rem] mb-5 " >
     { products.length > 0? (
       <Carousel >
         {products.map((product) => (
@@ -32,7 +32,7 @@ export default function Home() {
     ): <p>There are no products to show</p> }
     </div>
     <FormContainer>
-      <div className='flex flex-col mx-auto gap-3 '>
+      <div className='flex flex-col mx-auto gap-3 mb-10 '>
         <Link to='/menu'>
           <span className='flex items-end'>
             <img src={burgerIcon} alt='burger icon' className='h-10 w-10' />
@@ -44,7 +44,7 @@ export default function Home() {
 
         </h1>
       </div>
-      <div className='flex flex-col p-10 max-w-6xl mx-auto'>
+      <div className='flex flex-col p-10  mt-10 max-w-6xl mx-auto'>
         <h1 className="text-center mb-5 text-3xl font-bold text-gray-900 dark:text-white">
           Our Menu
         </h1>

@@ -3,11 +3,13 @@ import {Link, useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/shoppingCart/shoppingCartSlice';
+import Rating from './Rating';
 import {toast} from 'react-toastify';
 
 
 
-export default function Product( {product,showDescription, showButton, showQty} ) {
+
+export default function Product( {product,showDescription, showButton, showQty, showRating=false} ) {
   const [qty, setQty] = useState(1)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -26,13 +28,19 @@ export default function Product( {product,showDescription, showButton, showQty} 
       className="rounded-lg h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300" 
     />
     <Link to={`/product/${product._id}`}>
-        <h1 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white">
-          {product.name}
-        </h1>
-      </Link>
+      <h1 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white">
+        {product.name}
+      </h1>
+    </Link>
+    
       {showDescription && (
         <p>{product.description}</p>
       )}
+      {showRating && (
+      <div className="flex items-center justify-between">
+        <Rating value={product.rating} text={product.numReviews} />
+      </div>
+    )}
       <div className="flex items-center justify-between">
         <span className="text-md  text-gray-900 dark:text-white">Price: ${product.price}</span>
         {showButton && (

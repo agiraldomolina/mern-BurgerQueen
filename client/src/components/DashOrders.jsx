@@ -111,7 +111,13 @@ export default function DashOrders() {
                                 className='bg-white dark:border-gray-700 dark:bg-gray-800'
                             >
                                 <Table.Cell>
-                                    {new Date(order.dataEntry).toLocaleDateString()}
+                                    {new Date(order.dataEntry).toLocaleDateString('es-ES', { 
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}
                                 </Table.Cell>
                                 <Table.Cell>
                                     {order.table}

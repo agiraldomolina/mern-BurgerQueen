@@ -23,7 +23,7 @@ export default function ProductDetails() {
    
     return (
         <div className='sm:w-1/2 lg:w-1/4 mx-auto  p-4'>
-            <Product product={product} showButton={false} showDescription={true} showQty={false} />
+            <Product product={product} showButton={false} showDescription={true} showRating={true} showQty={false} />
         </div>
   )
 }

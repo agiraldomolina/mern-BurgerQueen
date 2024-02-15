@@ -4,7 +4,8 @@ import burgerIcon from '../assets/images/burgerIcon.png'
 import {AiOutlineSearch} from'react-icons/ai'
 import {FaMoon, FaShoppingCart, FaSun} from'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
-import userIcon from '../assets/images/userIcon.png'
+import userIcon from '../assets/images/userIcon.png';
+import { clearCartItems } from '../redux/shoppingCart/shoppingCartSlice'
 import {
   signOutStart,
   signOutSuccess,
@@ -29,7 +30,12 @@ export default function Header() {
         method: 'POST',
       })
       const data = await response.json()
-      !response.ok? dispatch(signOutFailure(data)) : dispatch(signOutSuccess())
+      if(!response.ok){
+        dispatch(signOutFailure(data))
+      }else{
+        dispatch(signOutSuccess())
+        dispatch(clearCartItems())
+      }
     } catch (error) {
       dispatch(signOutFailure())
     }

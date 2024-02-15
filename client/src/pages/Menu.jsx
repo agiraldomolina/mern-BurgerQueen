@@ -8,6 +8,7 @@ import axios from "axios"
 export default function Menu() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(products)
 
   const fetchProducts = async () => {
     try {
@@ -40,7 +41,7 @@ export default function Menu() {
   return (
     <div className='flex flex-col p-10 max-w-6xl mx-auto'>
         <h1 
-          className="text-center mb-5 text-6xl font-bold text-gray-900 dark:text-white font-mono underline decoration-double"
+          className="subpixel-antialiased text-center mb-5 text-6xl font-bold text-gray-900 tracking-wide dark:text-white font-sans "
         >
           Our Menu
         </h1>
@@ -48,7 +49,8 @@ export default function Menu() {
           {products.map((product) => (
             <Product 
               key={product._id} 
-              product={product} 
+              product={product}
+              showRating={true} 
               showDescription={false} 
               showButton={false}
               showQty={false}
