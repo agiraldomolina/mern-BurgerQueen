@@ -113,6 +113,7 @@ export default function UpdateUser() {
                 <option value="admin">Admin</option>
                 <option value="waiter">Waiter</option>
                 <option value="chef">Chef</option>
+                <option value="client">Client</option>
             </select>
 
             <TextInput

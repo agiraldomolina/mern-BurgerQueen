@@ -22,7 +22,7 @@ export default function ProductDetails() {
     }, [id]);
    
     return (
-        <div className='sm:w-1/2 lg:w-1/4 mx-auto  p-4'>
+        <div className='sm:w-1/2 lg:w-1/2 mx-auto  p-4'>
             <Product product={product} showButton={false} showDescription={true} showRating={true} showQty={false} />
         </div>
   )

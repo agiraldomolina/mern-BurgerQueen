@@ -7,7 +7,7 @@ import User from '../models/user.model.js';
 // @route POST /api/order
 // @access Private
 export const addOrderItems = catchAsync(async(req,res,next)=>{
-    if (!req.user.isAdmin && !req.user.isWaiter) return next(errorHandler(403, 'You are not authorized to perform this action'));
+    if (!req.user.isAdmin && !req.user.isWaiter && !req.user.isClient) return next(errorHandler(403, 'You are not authorized to perform this action'));
 
     //console.log('req.body from addOrder: '  + JSON.stringify(req.body));
     console.log ('email from addOrder: ' + req.user.email);

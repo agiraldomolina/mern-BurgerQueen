@@ -6,12 +6,15 @@ import { useSelector } from "react-redux"
 export default function DashUsers() {
     const {currentUser} = useSelector(state => state.user)
     const [users, setUsers] = useState([])
+    const [sortBy, setSortBy] = useState('role');
+    const [sortDirection, setSortDirection] = useState('asc');
     const [showMore, setShowMore] = useState(true)
     const [showModal, setShowModal] = useState(false)
     const [userIdToDelete, setUserIdToDelete] = useState(null)
     const [userMailToDelete, setUserMailToDelete] = useState(null)
 
     console.log(users)
+    console.log(sortDirection)
 
     const handleDeleteUser=async()=> {
         setShowModal(false)
@@ -35,9 +38,11 @@ export default function DashUsers() {
     }
 
     useEffect(() => {
+        // const sortDirection = sortDirection === 'asc'? 'desc' : 'asc';
+        // setSortDirection(sortDirection === 'asc'? 'desc' : 'asc');
         const fetchUsers = async () => {
             try { 
-                const response = await fetch('/api/user/get')
+                const response = await fetch(`/api/user/get?sortBy=${sortBy}&order=${sortDirection}`)
                 const data = await response.json();
                 if (response.ok) {
                     setUsers(data.users)
@@ -49,12 +54,12 @@ export default function DashUsers() {
             }
         }
         fetchUsers()
-    }, [currentUser]);
+    }, [currentUser, sortBy, sortDirection]);
 
     const handleShowMore = async() => {
         const startIndex = users.length;
         try {
-            const response = await fetch(`/api/user/get?startIndex=${startIndex}`)
+            const response = await fetch(`/api/user/get?startIndex=${startIndex}&sortBy=${sortBy}&order=${sortDirection}`)
             const data = await response.json();
             if (response.ok) {
                 setUsers((prev) => [...prev,...data.users])
@@ -74,10 +79,32 @@ export default function DashUsers() {
             <>
                 <Table striped hoverable className="shadow-md">
                     <Table.Head>
-                        <Table.HeadCell>Updated</Table.HeadCell>
+                        <Table.HeadCell  
+                            onClick={()=>{
+                                setSortBy('updatedAt')
+                                setSortDirection(sortDirection === 'asc'? 'desc' : 'asc')}}
+                            className="cursor-pointer"
+                        >
+                            Updated
+                        </Table.HeadCell>
                         <Table.HeadCell>Imagen</Table.HeadCell>
-                        <Table.HeadCell>Email</Table.HeadCell>
-                        <Table.HeadCell>Role</Table.HeadCell>
+                        <Table.HeadCell 
+                            onClick={()=>{
+                                setSortBy('email')
+                                setSortDirection(sortDirection === 'asc'? 'desc' : 'asc')}}
+                            className="cursor-pointer"
+                        >
+                            Email
+                        </Table.HeadCell>
+                        <Table.HeadCell 
+                            className="cursor-pointer" 
+                            onClick={()=>{
+                                setSortBy('role')
+                                setSortDirection(sortDirection === 'asc'? 'desc' : 'asc')
+                                }}
+                        >
+                            Role
+                        </Table.HeadCell>
                         {
                             currentUser.isAdmin &&(
                                 <>

@@ -25,7 +25,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if(!formData.email ||!formData.password || !formData.role || formData.email==='' || formData.password === '' || formData.role ==='') {
+    if(!formData.email ||!formData.password ||  formData.email==='' || formData.password === '' ) {
       return setErrorMessage('All fields are required')
     }
     try {
@@ -75,7 +75,7 @@ export default function SignUp() {
             className='flex flex-col gap-4 w-full'
             onSubmit={handleSubmit}
           >
-            <div className='flex flex-col'>         
+            {/* <div className='flex flex-col'>         
               <Label value="Your role"/>
                 <select 
                   id="role" 
@@ -84,7 +84,7 @@ export default function SignUp() {
                     <option value="waiter">Waiter</option>
                     <option value="chef">Chef</option>
                 </select>
-            </div>
+            </div> */}
             <div>
             <Label value='Your Email' />
               <TextInput

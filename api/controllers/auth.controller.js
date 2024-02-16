@@ -13,12 +13,11 @@ export const signup = catchAsync(async (req, res, next) => {
         return next(errorHandler(400, 'User already exists'));
     };
 
-    if (!role ||!email ||!password || role==="" || email==="" || password==="" ) {
+    if  (!email ||!password || email==="" || password==="" ) {
         return next(errorHandler(400, 'Please fill all the fields'));
     }
 
     const newUser = new User({
-        role,
         email,
         password,
     });
@@ -32,7 +31,8 @@ const createSendToken =(user, statusCode, res) => {
         email: user.email,
         isAdmin: user.isAdmin,
         isWaiter: user.role === 'waiter',
-        isChef: user.role === 'chef',      
+        isChef: user.role === 'chef', 
+        isClient: user.role === 'client',     
     }, process.env.JWT_SECRET)
 
     console.log('token from signin: ' + token);

@@ -50,11 +50,12 @@ export const deleteUser = catchAsync(async (req, res, next) => {
 });
 
 export const getUsers = catchAsync(async (req, res, next) => {
-    console.log('hi from getUsers');
+    // console.log('hi from getUsers');
+    // console.log('sort order: '+ req.query.order);
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const sortBy = req.query.sortBy || 'role';
-    const sortDirection = req.query.order === 'asc'? 'asc' : 'desc';
+    const sortDirection = req.query.order === 'asc'? -1 : 1;
     
     const projection ={
         email: 1,

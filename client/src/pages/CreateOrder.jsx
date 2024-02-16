@@ -10,7 +10,7 @@ import FormContainer from '../components/FormContainer';
 export default function CreateOrder() {
   const dispatch =useDispatch()
   const navigate = useNavigate()
-  //const { currentUser } = useSelector(state => state.user)
+  const { currentUser } = useSelector(state => state.user)
   const [products, setProducts] = useState([])
   const [formData, setFormData] = useState({})
   const [filteredProducts, setFilteredProducts] = useState([])
@@ -25,7 +25,7 @@ export default function CreateOrder() {
   console.log(products)
 
   const addTableHandler=(table) => {
-    dispatch(setTable(table))
+    currentUser.role === 'client' ? dispatch(setTable(100)): dispatch(setTable(table))
   }
 
   const fetchProducts = async () => {
@@ -73,7 +73,8 @@ export default function CreateOrder() {
       <form
         className='flex flex-col gap-4  pt-4 border rounded-md border-gray-200 '
       >
-        <div className='flex flex-col w-10/12 sm:w-1/2 gap-4 mx-auto'>
+        <div className='flex flex-col w-11/12  gap-4 mx-auto'>
+        {!currentUser.role === 'client' ? (
           <Select
             id='table'
             onChange={(event)=>(addTableHandler(event.target.value))} 
@@ -85,7 +86,9 @@ export default function CreateOrder() {
               </option>
             ))}
           </Select>
+        ):(addTableHandler('100'))}
           <Select
+            className='mt-5'
             id='type'
             defaultValue='none'
             onChange = {(event)=> setFormData({...formData, type: event.target.value})}
@@ -99,7 +102,7 @@ export default function CreateOrder() {
             <option value='dessert'>Desserts</option>       
           </Select>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 m-6" >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-6" >
           {showFilteredProducts && filteredProducts.map((product) => (
             <div key={product._id}>
               <Product 

@@ -133,6 +133,7 @@ export default function DashOrders() {
                                 <Table.Cell>
                                     <Select
                                         value={order.status}
+                                        disabled={currentUser.role === 'client'}
                                         onChange={(e)=>{
                                             setNewStatus(e.target.value)
                                             statusChangeHandler(order._id, e.target.value)

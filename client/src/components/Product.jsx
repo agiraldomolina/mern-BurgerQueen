@@ -28,7 +28,7 @@ export default function Product( {product,showDescription, showButton, showQty, 
       className="rounded-lg h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300" 
     />
     <Link to={`/product/${product._id}`}>
-      <h1 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white">
+      <h1 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-1">
         {product.name}
       </h1>
     </Link>

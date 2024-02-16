@@ -20,7 +20,8 @@ export default function Header() {
   const path= useLocation().pathname
   const {theme} = useSelector((state) => state.theme)
 
-  console.log('cart items: ' + JSON.stringify( cartItems))
+  //console.log('cart items: ' + JSON.stringify( cartItems))
+  // console.log('role? :'+currentUser.role)
   //console.log(currentUser)
 
   const handleSignOut = async () => {
@@ -97,9 +98,45 @@ export default function Header() {
                 <span className="block text-sm">{currentUser.email}</span>
                 <span className="block truncate text-sm font-medium">{currentUser.role}</span>
               </Dropdown.Header>
+
+              {currentUser.role === 'client'? (
+                <>
+                  <Link to={'/create-order'}>
+                    <Dropdown.Item>Create order</Dropdown.Item>
+                  </Link>
+                  <Link to={'/orders'}>
+                    <Dropdown.Item>See my Orders</Dropdown.Item>
+                  </Link>
+                  <Link to={'/profile'}>
+                    <Dropdown.Item>Profile</Dropdown.Item>
+                  </Link>
+                </>
+              ):(
                 <Link to={'/dashboard?tab=profile'}>
                   <Dropdown.Item>Tools</Dropdown.Item>
                 </Link>
+              )}
+
+              {/* {currentUser.role === 'client' &&(
+                <>
+                  <Link to={'/create-order'}>
+                    <Dropdown.Item>Create order</Dropdown.Item>
+                  </Link>
+                  <Link to={'/orders'}>
+                    <Dropdown.Item>See my Orders</Dropdown.Item>
+                  </Link>
+                  <Link to={'/profile'}>
+                    <Dropdown.Item>Profile</Dropdown.Item>
+                  </Link>
+                </>
+              )}
+
+              {!currentUser.role === 'client' &&(
+                <Link to={'/dashboard?tab=profile'}>
+                  <Dropdown.Item>Tools</Dropdown.Item>
+                </Link>
+              )} */}
+                
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
             </Dropdown>         
@@ -112,6 +149,8 @@ export default function Header() {
               </Button>
             </Link>
           )}
+
+
         <Navbar.Toggle/>
       </div>
       <Link to='/shopping-cart'>
