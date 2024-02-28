@@ -38,8 +38,7 @@ export default function DashUsers() {
     }
 
     useEffect(() => {
-        // const sortDirection = sortDirection === 'asc'? 'desc' : 'asc';
-        // setSortDirection(sortDirection === 'asc'? 'desc' : 'asc');
+        setShowMore(true)
         const fetchUsers = async () => {
             try { 
                 const response = await fetch(`/api/user/get?sortBy=${sortBy}&order=${sortDirection}`)
@@ -108,7 +107,14 @@ export default function DashUsers() {
                         {
                             currentUser.isAdmin &&(
                                 <>
-                                    <Table.HeadCell>User Id</Table.HeadCell>
+                                    <Table.HeadCell
+                                        onClick={()=>{
+                                            setSortBy('_id')
+                                            setSortDirection(sortDirection === 'asc'? 'desc' : 'asc')}}
+                                        className="cursor-pointer"
+                                    >
+                                        User Id
+                                    </Table.HeadCell>
                                     <Table.HeadCell>Edit</Table.HeadCell>
                                     <Table.HeadCell>Delete</Table.HeadCell>
                                 </>

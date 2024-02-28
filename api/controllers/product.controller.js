@@ -113,3 +113,17 @@ export const getProducts = catchAsync(async (req, res, next) => {
     })
     //console.log(products);
 });
+
+// @description Get top rated products
+// @route GET /api/products/top
+// @access Public
+export const getTopProducts = catchAsync(async(req,res,next)=>{
+    const products = await Product
+        .find({})
+        .sort({rating:-1})
+        .limit(3);;
+    
+    res
+        .status(200)
+        .json(products);
+});
